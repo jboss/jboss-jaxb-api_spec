@@ -177,8 +177,8 @@ class ContextFinder {
     static JAXBContext newInstance(
                               Class[] classes,
                               Map properties,
-                              String className) throws JAXBException {
-        ClassLoader cl = Thread.currentThread().getContextClassLoader();
+                              String className, boolean useDefiningCL) throws JAXBException {
+        ClassLoader cl = useDefiningCL ? null : Thread.currentThread().getContextClassLoader();
         Class spi;
         try {
             spi = safeLoadClass(className,cl);
@@ -327,7 +327,7 @@ class ContextFinder {
                 if (props.containsKey(JAXB_CONTEXT_FACTORY)) {
                     // trim() seems redundant, but adding to satisfy customer complaint
                     factoryClassName = props.getProperty(JAXB_CONTEXT_FACTORY).trim();
-                    return newInstance(classes, properties, factoryClassName);
+                    return newInstance(classes, properties, factoryClassName, false);
                 } else {
                     throw new JAXBException(Messages.format(Messages.MISSING_PROPERTY, packageName, JAXB_CONTEXT_FACTORY));
                 }
@@ -339,7 +339,7 @@ class ContextFinder {
         factoryClassName = AccessController.doPrivileged(new GetPropertyAction(jaxbContextFQCN));
         if(  factoryClassName != null ) {
             logger.fine("  found "+factoryClassName);
-            return newInstance( classes, properties, factoryClassName );
+            return newInstance( classes, properties, factoryClassName, false);
         }
         logger.fine("  not found");
 
@@ -349,17 +349,27 @@ class ContextFinder {
         try {
             final String resource = new StringBuilder("META-INF/services/").append(jaxbContextFQCN).toString();
             ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-            URL resourceURL;
-            if(classLoader==null)
-                resourceURL = ClassLoader.getSystemResource(resource);
-            else
+
+            // Load via the TCCL, then try the defining loader, and finally app cl
+            URL resourceURL = null;
+            boolean useTCCL = true;
+            if (classLoader !=  null)
                 resourceURL = classLoader.getResource(resource);
+
+            if (resourceURL == null) {
+                useTCCL = false;
+                ClassLoader definingCL = ContextFinder.class.getClassLoader();
+                resourceURL = definingCL != null ? definingCL.getResource(resource) : null;
+            }
+
+            if (resourceURL == null)
+                resourceURL = ClassLoader.getSystemResource(resource);
 
             if (resourceURL != null) {
                 logger.fine("Reading "+resourceURL);
                 r = new BufferedReader(new InputStreamReader(resourceURL.openStream(), "UTF-8"));
                 factoryClassName = r.readLine().trim();
-                return newInstance(classes, properties, factoryClassName);
+                return newInstance(classes, properties, factoryClassName, !useTCCL);
             } else {
                 logger.fine("Unable to find: " + resource);
             }
@@ -372,7 +382,7 @@ class ContextFinder {
 
         // else no provider found
         logger.fine("Trying to create the platform default provider");
-        return newInstance(classes, properties, PLATFORM_DEFAULT_FACTORY_CLASS);
+        return newInstance(classes, properties, PLATFORM_DEFAULT_FACTORY_CLASS, true);
     }
 
 

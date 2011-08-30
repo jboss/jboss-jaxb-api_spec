@@ -99,17 +99,27 @@ class ContextFinder {
                 targetTypeURL));
     }
 
+    static JAXBContext newInstance( String contextPath,
+            String className,
+            ClassLoader classLoader,
+            Map properties )
+        throws JAXBException
+    {
+        return newInstance(contextPath, className, classLoader, classLoader, properties);
+    }
+
     /**
      * Create an instance of a class using the specified ClassLoader
      */
     static JAXBContext newInstance( String contextPath,
                                String className, 
+                               ClassLoader spiClassLoader,
                                ClassLoader classLoader,
                                Map properties )
         throws JAXBException
     {
         try {
-            Class spiClass = safeLoadClass(className,classLoader);
+            Class spiClass = safeLoadClass(className,spiClassLoader);
 
             /*
              * javax.xml.bind.context.factory points to a class which has a
@@ -265,9 +275,9 @@ class ContextFinder {
         // search META-INF services next
         BufferedReader r;
         try {
-            final StringBuilder resource = new StringBuilder().append("META-INF/services/").append(jaxbContextFQCN);
+            final String resource = new StringBuilder().append("META-INF/services/").append(jaxbContextFQCN).toString();
             final InputStream resourceStream =
-                    classLoader.getResourceAsStream(resource.toString());
+                    classLoader.getResourceAsStream(resource);
             
             if (resourceStream != null) {
                 r = new BufferedReader(new InputStreamReader(resourceStream, "UTF-8"));
@@ -275,7 +285,16 @@ class ContextFinder {
                 r.close();
                 return newInstance(contextPath, factoryClassName, classLoader, properties);
             } else {
-                logger.fine("Unable to load:" + resource.toString());
+                ClassLoader definingCL = ContextFinder.class.getClassLoader();
+                URL resourceURL = definingCL != null ? definingCL.getResource(resource) : null;
+                if (resourceURL != null) {
+                    logger.fine("Reading " + resourceURL);
+                    r = new BufferedReader(new InputStreamReader(resourceURL.openStream(), "UTF-8"));
+                    factoryClassName = r.readLine().trim();
+                    return newInstance(contextPath, factoryClassName, definingCL, classLoader, properties);
+                } else {
+                    logger.fine("Unable to load:" + resource);
+                }
             }
         } catch (UnsupportedEncodingException e) {
             // should never happen
@@ -369,6 +388,7 @@ class ContextFinder {
                 logger.fine("Reading "+resourceURL);
                 r = new BufferedReader(new InputStreamReader(resourceURL.openStream(), "UTF-8"));
                 factoryClassName = r.readLine().trim();
+                r.close();
                 return newInstance(classes, properties, factoryClassName, !useTCCL);
             } else {
                 logger.fine("Unable to find: " + resource);

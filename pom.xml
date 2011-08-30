@@ -8,7 +8,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.jboss.spec.javax.xml.bind</groupId>
   <artifactId>jboss-jaxb-api_2.2_spec</artifactId>
-  <version>1.0.3-SNAPSHOT</version>
+  <version>1.0.3.Final</version>
   <packaging>jar</packaging>
   <name>Java Architecture for XML Binding 2.2</name>
   <description>Java Architecture for XML Binding Version 2.2 classes</description>

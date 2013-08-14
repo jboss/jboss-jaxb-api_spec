@@ -288,12 +288,16 @@ class ContextFinder {
                 ClassLoader definingCL = ContextFinder.class.getClassLoader();
                 URL resourceURL = definingCL != null ? definingCL.getResource(resource) : null;
                 if (resourceURL != null) {
-                    logger.fine("Reading " + resourceURL);
+                    if (logger.isLoggable(Level.FINE)) {
+                	    logger.fine("Reading " + resourceURL);
+                    }
                     r = new BufferedReader(new InputStreamReader(resourceURL.openStream(), "UTF-8"));
                     factoryClassName = r.readLine().trim();
                     return newInstance(contextPath, factoryClassName, definingCL, classLoader, properties);
                 } else {
-                    logger.fine("Unable to load:" + resource);
+                    if (logger.isLoggable(Level.FINE)) {
+                		logger.fine("Unable to load:" + resource);
+                	}
                 }
             }
         } catch (UnsupportedEncodingException e) {
@@ -316,6 +320,7 @@ class ContextFinder {
         final String jaxbContextFQCN = JAXBContext.class.getName();
         String factoryClassName;
 
+        final boolean debug = logger.isLoggable(Level.FINE);
         // search for jaxb.properties in the class loader of each class first
         for (final Class c : classes) {
             // this classloader is used only to load jaxb.properties, so doing this should be safe.
@@ -337,7 +342,9 @@ class ContextFinder {
 
             // build the resource name and use the property loader code
             String resourceName = packageName+"/jaxb.properties";
-            logger.fine("Trying to locate "+resourceName);
+            if (debug) {
+               logger.fine("Trying to locate "+resourceName);
+            }
             Properties props = loadJAXBProperties(classLoader, resourceName);
             if (props == null) {
                 logger.fine("  not found");
@@ -354,10 +361,14 @@ class ContextFinder {
         }
 
         // search for a system property second (javax.xml.bind.JAXBContext)
-        logger.fine("Checking system property "+jaxbContextFQCN);
+        if (debug) {
+           logger.fine("Checking system property "+jaxbContextFQCN);
+        }
         factoryClassName = AccessController.doPrivileged(new GetPropertyAction(jaxbContextFQCN));
         if(  factoryClassName != null ) {
-            logger.fine("  found "+factoryClassName);
+            if (debug) {
+             logger.fine("  found "+factoryClassName);
+            }
             return newInstance( classes, properties, factoryClassName, false);
         }
         logger.fine("  not found");
@@ -385,13 +396,17 @@ class ContextFinder {
                 resourceURL = ClassLoader.getSystemResource(resource);
 
             if (resourceURL != null) {
-                logger.fine("Reading "+resourceURL);
+                if (debug) {
+                   logger.fine("Reading "+resourceURL);
+                }
                 r = new BufferedReader(new InputStreamReader(resourceURL.openStream(), "UTF-8"));
                 factoryClassName = r.readLine().trim();
                 r.close();
                 return newInstance(classes, properties, factoryClassName, !useTCCL);
             } else {
-                logger.fine("Unable to find: " + resource);
+                if (debug) {
+                   logger.fine("Unable to find: " + resource);
+                }
             }
         } catch (UnsupportedEncodingException e) {
             // should never happen
@@ -404,7 +419,6 @@ class ContextFinder {
         logger.fine("Trying to create the platform default provider");
         return newInstance(classes, properties, PLATFORM_DEFAULT_FACTORY_CLASS, true);
     }
-
 
     private static Properties loadJAXBProperties( ClassLoader classLoader,
                                                   String propFileName ) 
@@ -420,14 +434,18 @@ class ContextFinder {
                 url = classLoader.getResource( propFileName );
 
             if( url != null ) {
-                logger.fine("loading props from "+url);
+                if (logger.isLoggable(Level.FINE)) {
+                   logger.fine("loading props from "+url);
+                }
                 props = new Properties();
                 InputStream is = url.openStream();
                 props.load( is );
                 is.close();
             } 
         } catch( IOException ioe ) {
-            logger.log(Level.FINE,"Unable to load "+propFileName,ioe);
+            if (logger.isLoggable(Level.FINE)) {
+               logger.log(Level.FINE,"Unable to load "+propFileName,ioe);
+            }
             throw new JAXBException( ioe.toString(), ioe );
         }
         
@@ -493,7 +511,9 @@ class ContextFinder {
      * Loads the class, provided that the calling thread has an access to the class being loaded.
      */
     private static Class safeLoadClass(String className, ClassLoader classLoader) throws ClassNotFoundException {
-       logger.fine("Trying to load "+className);
+       if (logger.isLoggable(Level.FINE)) {
+          logger.fine("Trying to load "+className);
+       }
        try {
           // make sure that the current thread has an access to the package of the given name.
           SecurityManager s = System.getSecurityManager();

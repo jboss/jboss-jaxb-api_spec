@@ -13,6 +13,8 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.security.PrivilegedActionException;
+import java.security.PrivilegedExceptionAction;
 import java.util.Map;
 import java.util.Properties;
 import java.util.StringTokenizer;
@@ -286,12 +288,27 @@ class ContextFinder {
                 return newInstance(contextPath, factoryClassName, classLoader, properties);
             } else {
                 ClassLoader definingCL = ContextFinder.class.getClassLoader();
-                URL resourceURL = definingCL != null ? definingCL.getResource(resource) : null;
+                final URL resourceURL = definingCL != null ? definingCL.getResource(resource) : null;
                 if (resourceURL != null) {
                     if (logger.isLoggable(Level.FINE)) {
                 	    logger.fine("Reading " + resourceURL);
                     }
-                    r = new BufferedReader(new InputStreamReader(resourceURL.openStream(), "UTF-8"));
+                    final InputStream is;
+                    if (System.getSecurityManager() != null) {
+                        try {
+                            is = AccessController.doPrivileged(new PrivilegedExceptionAction<InputStream>() {
+                                @Override
+                                public InputStream run() throws Exception {
+                                    return resourceURL.openStream();
+                                }
+                            });
+                        } catch (PrivilegedActionException pae) {
+                            throw (IOException) pae.getException();
+                        }
+                    } else {
+                        is = resourceURL.openStream();
+                    }
+                    r = new BufferedReader(new InputStreamReader(is, "UTF-8"));
                     factoryClassName = r.readLine().trim();
                     return newInstance(contextPath, factoryClassName, definingCL, classLoader, properties);
                 } else {

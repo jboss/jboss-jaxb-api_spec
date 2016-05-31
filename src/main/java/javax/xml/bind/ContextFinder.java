@@ -131,12 +131,30 @@ class ContextFinder {
 
             Object context = null;
 
+            final SecurityManager sm = System.getSecurityManager();
+
             // first check the method that takes Map as the third parameter.
             // this is added in 2.0.
             try {
-                Method m = spiClass.getMethod("createContext",String.class,ClassLoader.class,Map.class);
+                final Method m = spiClass.getMethod("createContext",String.class,ClassLoader.class,Map.class);
                 // any failure in invoking this method would be considered fatal
-                context = m.invoke(null,contextPath,classLoader,properties);
+                if (sm != null) {
+                    final String finalContextPath = contextPath;
+                    final ClassLoader finalClassLoader = classLoader;
+                    final Map finalProperties = properties;
+                    try {
+                        context = AccessController.doPrivileged(new PrivilegedExceptionAction<Object>() {
+                            @Override
+                            public Object run() throws Exception {
+                                return m.invoke(null, finalContextPath, finalClassLoader, finalProperties);
+                            }
+                        });
+                    } catch (PrivilegedActionException pae) {
+                        throw pae.getException();
+                    }
+                } else {
+                    context = m.invoke(null,contextPath,classLoader,properties);
+                }
             } catch (NoSuchMethodException e) {
                 // it's not an error for the provider not to have this method.
             }
@@ -144,9 +162,24 @@ class ContextFinder {
             if(context==null) {
                 // try the old method that doesn't take properties. compatible with 1.0.
                 // it is an error for an implementation not to have both forms of the createContext method.
-                Method m = spiClass.getMethod("createContext",String.class,ClassLoader.class);
+                final Method m = spiClass.getMethod("createContext",String.class,ClassLoader.class);
                 // any failure in invoking this method would be considered fatal
-                context = m.invoke(null,contextPath,classLoader);
+                if (sm != null) {
+                    final String finalContextPath = contextPath;
+                    final ClassLoader finalClassLoader = classLoader;
+                    try {
+                        context = AccessController.doPrivileged(new PrivilegedExceptionAction<Object>() {
+                            @Override
+                            public Object run() throws Exception {
+                                return m.invoke(null, finalContextPath, finalClassLoader);
+                            }
+                        });
+                    } catch (PrivilegedActionException pae) {
+                        throw pae.getException();
+                    }
+                } else {
+                    context = m.invoke(null,contextPath,classLoader);
+                }
             }
 
             if(!(context instanceof JAXBContext)) {

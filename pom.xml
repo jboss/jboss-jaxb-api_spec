@@ -6,12 +6,12 @@
   <parent>
     <groupId>org.jboss</groupId>
     <artifactId>jboss-parent</artifactId>
-    <version>9</version>
+    <version>25</version>
   </parent>
 
   <groupId>org.jboss.spec.javax.xml.bind</groupId>
-  <artifactId>jboss-jaxb-api_2.2_spec</artifactId>
-  <version>1.0.5.Final-SNAPSHOT</version>
+  <artifactId>jboss-jaxb-api_2.3_spec</artifactId>
+  <version>1.0.0.Alpha1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>Java Architecture for XML Binding 2.2</name>
@@ -82,10 +82,10 @@
           <instructions>
             <Specification-Title>JSR-000222: Java(TM) Architecture for XML Binding (JAXB)</Specification-Title>
             <Specification-Vendor>Oracle</Specification-Vendor>
-            <Specification-Version>2.2</Specification-Version>
+            <Specification-Version>2.3</Specification-Version>
             <!-- Set the package version to match the spec version -->
             <Export-Package>
-              javax.xml.bind*;version=2.2
+              javax.xml.bind*;version=2.3
             </Export-Package>
           </instructions>
         </configuration>
@@ -109,7 +109,7 @@
             <manifestEntries>
               <Specification-Title>JSR-000222: Java(TM) Architecture for XML Binding (JAXB)</Specification-Title>
               <Specification-Vendor>Oracle</Specification-Vendor>
-              <Specification-Version>2.2</Specification-Version>
+              <Specification-Version>2.3</Specification-Version>
             </manifestEntries>
           </archive>
         </configuration>

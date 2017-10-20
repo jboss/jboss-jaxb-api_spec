@@ -1,7 +1,43 @@
 /*
- * Copyright 2003 Sun Microsystems, Inc. All rights reserved.
- * SUN PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
+ *
+ * Copyright (c) 2003-2017 Oracle and/or its affiliates. All rights reserved.
+ *
+ * The contents of this file are subject to the terms of either the GNU
+ * General Public License Version 2 only ("GPL") or the Common Development
+ * and Distribution License("CDDL") (collectively, the "License").  You
+ * may not use this file except in compliance with the License.  You can
+ * obtain a copy of the License at
+ * https://oss.oracle.com/licenses/CDDL+GPL-1.1
+ * or LICENSE.txt.  See the License for the specific
+ * language governing permissions and limitations under the License.
+ *
+ * When distributing the software, include this License Header Notice in each
+ * file and include the License file at LICENSE.txt.
+ *
+ * GPL Classpath Exception:
+ * Oracle designates this particular file as subject to the "Classpath"
+ * exception as provided by Oracle in the GPL Version 2 section of the License
+ * file that accompanied this code.
+ *
+ * Modifications:
+ * If applicable, add the following below the License Header, with the fields
+ * enclosed by brackets [] replaced by your own identifying information:
+ * "Portions Copyright [year] [name of copyright owner]"
+ *
+ * Contributor(s):
+ * If you wish your version of this file to be governed by only the CDDL or
+ * only the GPL Version 2, indicate your decision by adding "[Contributor]
+ * elects to include this software in this distribution under the [CDDL or GPL
+ * Version 2] license."  If you don't indicate a single choice of license, a
+ * recipient has the option to distribute your version of this file under
+ * either the CDDL, the GPL Version 2 or to extend the choice of license to
+ * its licensees as provided above.  However, if you add GPL Version 2 code
+ * and therefore, elected the GPL Version 2 license, then the option applies
+ * only if the new code is made subject to such option by the copyright
+ * holder.
  */
+
 package javax.xml.bind.helpers;
 
 import org.xml.sax.InputSource;
@@ -26,13 +62,11 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.sax.SAXSource;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
-import java.io.File;
-import java.io.Reader;
-import java.net.MalformedURLException;
+import java.io.*;
 import java.net.URL;
 
 /**
- * Partial default <tt>Unmarshaller</tt> implementation.
+ * Partial default {@code Unmarshaller} implementation.
  * 
  * <p>
  * This class provides a partial default implementation for the
@@ -47,7 +81,7 @@ import java.net.URL;
  *         <li>Kohsuke Kawaguchi, Sun Microsystems, Inc.</li>
  *         </ul>
  * @see javax.xml.bind.Unmarshaller
- * @since JAXB1.0
+ * @since 1.6, JAXB 1.0
  */
 public abstract class AbstractUnmarshallerImpl implements Unmarshaller
 {    
@@ -112,11 +146,11 @@ public abstract class AbstractUnmarshallerImpl implements Unmarshaller
     // use the client specified XMLReader contained in the SAXSource.
     private Object unmarshal( SAXSource source ) throws JAXBException {
         
-        XMLReader reader = source.getXMLReader();
-        if( reader == null )
-            reader = getXMLReader();
+        XMLReader r = source.getXMLReader();
+        if( r == null )
+            r = getXMLReader();
         
-        return unmarshal( reader, source.getInputSource() );
+        return unmarshal( r, source.getInputSource() );
     }
 
     /**
@@ -157,16 +191,8 @@ public abstract class AbstractUnmarshallerImpl implements Unmarshaller
         }
 
         try {
-            // copied from JAXP
-	    String path = f.getAbsolutePath();
-	    if (File.separatorChar != '/')
-	    	path = path.replace(File.separatorChar, '/');
-	    if (!path.startsWith("/"))
-	    	path = "/" + path;
-	    if (!path.endsWith("/") && f.isDirectory())
-	    	path = path + "/";
-	    return unmarshal(new URL("file", "", path));
-        } catch( MalformedURLException e ) {
+            return unmarshal(new BufferedInputStream(new FileInputStream(f)));
+        } catch( FileNotFoundException e ) {
             throw new IllegalArgumentException(e.getMessage());
         }
     }
@@ -225,7 +251,7 @@ public abstract class AbstractUnmarshallerImpl implements Unmarshaller
      * <p>
      * The validation event handler will be called by the JAXB Provider if any
      * validation errors are encountered during calls to any of the
-     * <tt>unmarshal</tt> methods.  If the client application does not register
+     * {@code unmarshal} methods.  If the client application does not register
      * a validation event handler before invoking the unmarshal methods, then
      * all validation events will be silently ignored and may result in
      * unexpected behaviour.
@@ -246,7 +272,7 @@ public abstract class AbstractUnmarshallerImpl implements Unmarshaller
     
     /**
      * Specifies whether or not the Unmarshaller should validate during
-     * unmarshal operations.  By default, the <tt>Unmarshaller</tt> does
+     * unmarshal operations. By default, the {@code Unmarshaller} does
      * not validate.
      * <p>
      * This method may only be invoked before or after calling one of the

@@ -1,6 +1,41 @@
 /*
- * Copyright 2005 Sun Microsystems, Inc. All rights reserved.
- * SUN PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
+ *
+ * Copyright (c) 2005-2017 Oracle and/or its affiliates. All rights reserved.
+ *
+ * The contents of this file are subject to the terms of either the GNU
+ * General Public License Version 2 only ("GPL") or the Common Development
+ * and Distribution License("CDDL") (collectively, the "License").  You
+ * may not use this file except in compliance with the License.  You can
+ * obtain a copy of the License at
+ * https://oss.oracle.com/licenses/CDDL+GPL-1.1
+ * or LICENSE.txt.  See the License for the specific
+ * language governing permissions and limitations under the License.
+ *
+ * When distributing the software, include this License Header Notice in each
+ * file and include the License file at LICENSE.txt.
+ *
+ * GPL Classpath Exception:
+ * Oracle designates this particular file as subject to the "Classpath"
+ * exception as provided by Oracle in the GPL Version 2 section of the License
+ * file that accompanied this code.
+ *
+ * Modifications:
+ * If applicable, add the following below the License Header, with the fields
+ * enclosed by brackets [] replaced by your own identifying information:
+ * "Portions Copyright [year] [name of copyright owner]"
+ *
+ * Contributor(s):
+ * If you wish your version of this file to be governed by only the CDDL or
+ * only the GPL Version 2, indicate your decision by adding "[Contributor]
+ * elects to include this software in this distribution under the [CDDL or GPL
+ * Version 2] license."  If you don't indicate a single choice of license, a
+ * recipient has the option to distribute your version of this file under
+ * either the CDDL, the GPL Version 2 or to extend the choice of license to
+ * its licensees as provided above.  However, if you add GPL Version 2 code
+ * and therefore, elected the GPL Version 2 license, then the option applies
+ * only if the new code is made subject to such option by the copyright
+ * holder.
  */
 
 package javax.xml.bind;
@@ -56,7 +91,7 @@ import javax.xml.validation.Schema;
  *     Kohsuke Kawaguchi (kohsuke.kawaguchi@sun.com)
  *     Joseph Fialli
  * 
- * @since JAXB 2.0
+ * @since 1.6, JAXB 2.0
  */
 public abstract class Binder<XmlNode> {
     /**
@@ -75,10 +110,10 @@ public abstract class Binder<XmlNode> {
      * <p>
      * This method throws {@link UnmarshalException} when the Binder's
      * {@link JAXBContext} does not have a mapping for the XML element name
-     * or the type, specifiable via <tt>@xsi:type</tt>, of <tt>xmlNode</tt>
+     * or the type, specifiable via {@code @xsi:type}, of {@code xmlNode}
      * to a JAXB mapped class. The method {@link #unmarshal(Object, Class)} 
      * enables an application to specify the JAXB mapped class that
-     * the <tt>xmlNode</tt> should be mapped to. 
+     * the {@code xmlNode} should be mapped to.
      *
      * @param xmlNode 
      *      the document/element to unmarshal XML data from.
@@ -90,8 +125,8 @@ public abstract class Binder<XmlNode> {
      *      If any unexpected errors occur while unmarshalling
      * @throws UnmarshalException
      *     If the {@link ValidationEventHandler ValidationEventHandler}
-     *     returns false from its <tt>handleEvent</tt> method or the 
-     *     <tt>Binder</tt> is unable to perform the XML to Java
+     *     returns false from its {@code handleEvent} method or the
+     *     {@code Binder} is unable to perform the XML to Java
      *     binding.
      * @throws IllegalArgumentException
      *      If the node parameter is null
@@ -99,7 +134,7 @@ public abstract class Binder<XmlNode> {
     public abstract Object unmarshal( XmlNode xmlNode ) throws JAXBException;
 
     /**
-     * Unmarshal XML root element by provided <tt>declaredType</tt> 
+     * Unmarshal XML root element by provided {@code declaredType}
      * to a JAXB object tree.
      *
      * <p>
@@ -118,22 +153,22 @@ public abstract class Binder<XmlNode> {
      * @param xmlNode 
      *      the document/element to unmarshal XML data from.
      * @param declaredType
-     *      appropriate JAXB mapped class to hold <tt>node</tt>'s XML data.
+     *      appropriate JAXB mapped class to hold {@code node}'s XML data.
      *
      * @return
      * <a href="JAXBElement.html">JAXB Element</a> representation 
-     * of <tt>node</tt>
+     * of {@code node}
      *
      * @throws JAXBException
      *      If any unexpected errors occur while unmarshalling
      * @throws UnmarshalException
      *     If the {@link ValidationEventHandler ValidationEventHandler}
-     *     returns false from its <tt>handleEvent</tt> method or the 
-     *     <tt>Binder</tt> is unable to perform the XML to Java
+     *     returns false from its {@code handleEvent} method or the
+     *     {@code Binder} is unable to perform the XML to Java
      *     binding.
      * @throws IllegalArgumentException
      *      If any of the input parameters are null
-     * @since JAXB2.0
+     * @since 1.6, JAXB 2.0
      */
     public abstract <T> JAXBElement<T> 
 	unmarshal( XmlNode xmlNode, Class<T> declaredType ) 
@@ -162,9 +197,9 @@ public abstract class Binder<XmlNode> {
      *      If any unexpected problem occurs during the marshalling.
      * @throws MarshalException
      *      If the {@link ValidationEventHandler ValidationEventHandler}
-     *      returns false from its <tt>handleEvent</tt> method or the 
-     *      <tt>Binder</tt> is unable to marshal <tt>jaxbObject</tt> (or any 
-     *      object reachable from <tt>jaxbObject</tt>).
+     *      returns false from its {@code handleEvent} method or the
+     *      {@code Binder} is unable to marshal {@code jaxbObject} (or any
+     *      object reachable from {@code jaxbObject}).
      * 
      * @throws IllegalArgumentException
      *      If any of the method parameters are null
@@ -323,9 +358,9 @@ public abstract class Binder<XmlNode> {
     public abstract Schema getSchema();
 
     /**
-     * Allow an application to register a <tt>ValidationEventHandler</tt>.
+     * Allow an application to register a {@code ValidationEventHandler}.
      * <p>
-     * The <tt>ValidationEventHandler</tt> will be called by the JAXB Provider
+     * The {@code ValidationEventHandler} will be called by the JAXB Provider
      * if any validation errors are encountered during calls to any of the
      * Binder unmarshal, marshal and update methods.  
      * 
@@ -353,7 +388,7 @@ public abstract class Binder<XmlNode> {
     /**
      * 
      * Set the particular property in the underlying implementation of
-     * <tt>Binder</tt>.  This method can only be used to set one of
+     * {@code Binder}.  This method can only be used to set one of
      * the standard JAXB defined unmarshal/marshal properties 
      * or a provider specific property for binder, unmarshal or marshal.
      * Attempting to set an undefined property will result in
@@ -377,7 +412,7 @@ public abstract class Binder<XmlNode> {
 
     /**
      * Get the particular property in the underlying implementation of
-     * <tt>Binder</tt>.  This method can only 
+     * {@code Binder}.  This method can only
      * be used to get one of
      * the standard JAXB defined unmarshal/marshal properties 
      * or a provider specific property for binder, unmarshal or marshal.  

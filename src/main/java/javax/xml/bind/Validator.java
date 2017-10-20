@@ -1,6 +1,41 @@
 /*
- * Copyright 2003 Sun Microsystems, Inc. All rights reserved.
- * SUN PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
+ *
+ * Copyright (c) 2003-2017 Oracle and/or its affiliates. All rights reserved.
+ *
+ * The contents of this file are subject to the terms of either the GNU
+ * General Public License Version 2 only ("GPL") or the Common Development
+ * and Distribution License("CDDL") (collectively, the "License").  You
+ * may not use this file except in compliance with the License.  You can
+ * obtain a copy of the License at
+ * https://oss.oracle.com/licenses/CDDL+GPL-1.1
+ * or LICENSE.txt.  See the License for the specific
+ * language governing permissions and limitations under the License.
+ *
+ * When distributing the software, include this License Header Notice in each
+ * file and include the License file at LICENSE.txt.
+ *
+ * GPL Classpath Exception:
+ * Oracle designates this particular file as subject to the "Classpath"
+ * exception as provided by Oracle in the GPL Version 2 section of the License
+ * file that accompanied this code.
+ *
+ * Modifications:
+ * If applicable, add the following below the License Header, with the fields
+ * enclosed by brackets [] replaced by your own identifying information:
+ * "Portions Copyright [year] [name of copyright owner]"
+ *
+ * Contributor(s):
+ * If you wish your version of this file to be governed by only the CDDL or
+ * only the GPL Version 2, indicate your decision by adding "[Contributor]
+ * elects to include this software in this distribution under the [CDDL or GPL
+ * Version 2] license."  If you don't indicate a single choice of license, a
+ * recipient has the option to distribute your version of this file under
+ * either the CDDL, the GPL Version 2 or to extend the choice of license to
+ * its licensees as provided above.  However, if you add GPL Version 2 code
+ * and therefore, elected the GPL Version 2 license, then the option applies
+ * only if the new code is made subject to such option by the copyright
+ * holder.
  */
 
 package javax.xml.bind;
@@ -8,7 +43,7 @@ package javax.xml.bind;
 /**
  * As of JAXB 2.0, this class is deprecated and optional.
  * <p>
- * The <tt>Validator</tt> class is responsible for controlling the validation
+ * The {@code Validator} class is responsible for controlling the validation
  * of content trees during runtime.
  *
  * <p>
@@ -49,19 +84,19 @@ package javax.xml.bind;
  * </blockquote>
  *
  * <p>
- * The <tt>Validator</tt> class is responsible for managing On-Demand Validation.  
- * The <tt>Unmarshaller</tt> class is responsible for managing Unmarshal-Time 
+ * The {@code Validator} class is responsible for managing On-Demand Validation.
+ * The {@code Unmarshaller} class is responsible for managing Unmarshal-Time
  * Validation during the unmarshal operations.  Although there is no formal
  * method of enabling validation during the marshal operations, the 
- * <tt>Marshaller</tt> may detect errors, which will be reported to the 
- * <tt>ValidationEventHandler</tt> registered on it.
+ * {@code Marshaller} may detect errors, which will be reported to the
+ * {@code ValidationEventHandler} registered on it.
  *
  * <p>
  * <a name="defaulthandler"></a>
  * <b>Using the Default EventHandler</b><br>
  * <blockquote>
- *   If the client application does not set an event handler on their 
- *   <tt>Validator</tt>, <tt>Unmarshaller</tt>, or <tt>Marshaller</tt> prior to 
+ *   If the client application does not set an event handler on their
+ *   {@code Validator}, {@code Unmarshaller}, or {@code Marshaller} prior to
  *   calling the validate, unmarshal, or marshal methods, then a default event 
  *   handler will receive notification of any errors or warnings encountered.  
  *   The default event handler will cause the current operation to halt after 
@@ -78,24 +113,24 @@ package javax.xml.bind;
  *    <dl>
  *        <dt>Use the default event handler</dt>
  *        <dd>The default event handler will be used if you do not specify one
- *            via the <tt>setEventHandler</tt> API's on <tt>Validator</tt>, 
- *            <tt>Unmarshaller</tt>, or <tt>Marshaller</tt>.
+ *            via the {@code setEventHandler} API's on {@code Validator},
+ *            {@code Unmarshaller}, or {@code Marshaller}.
  *        </dd>
  * 
  *        <dt>Implement and register a custom event handler</dt>
  *        <dd>Client applications that require sophisticated event processing
- *            can implement the <tt>ValidationEventHandler</tt> interface and 
- *            register it with the <tt>Unmarshaller</tt> and/or 
- *            <tt>Validator</tt>.
+ *            can implement the {@code ValidationEventHandler} interface and
+ *            register it with the {@code Unmarshaller} and/or
+ *            {@code Validator}.
  *        </dd>
  *
  *        <dt>Use the {@link javax.xml.bind.util.ValidationEventCollector ValidationEventCollector} 
  *            utility</dt>
  *        <dd>For convenience, a specialized event handler is provided that
- *            simply collects any <tt>ValidationEvent</tt> objects created 
+ *            simply collects any {@code ValidationEvent} objects created
  *            during the unmarshal, validate, and marshal operations and 
  *            returns them to the client application as a 
- *            <tt>java.util.Collection</tt>.
+ *            {@code java.util.Collection}.
  *        </dd>
  *    </dl>
  * </blockquote>
@@ -111,9 +146,9 @@ package javax.xml.bind;
  * cases, the JAXB Provider will set the severity of the ValidationEvent to
  * FATAL_ERROR to indicate that the unmarshal, validate, or marshal operations 
  * should be terminated.  The default event handler and 
- * <tt>ValidationEventCollector</tt> utility class must terminate processing 
+ * {@code ValidationEventCollector} utility class must terminate processing
  * after being notified of a fatal error.  Client applications that supply their 
- * own <tt>ValidationEventHandler</tt> should also terminate processing after
+ * own {@code ValidationEventHandler} should also terminate processing after
  * being notified of a fatal error.  If not, unexpected behaviour may occur.
  * </blockquote>
  *
@@ -134,7 +169,7 @@ package javax.xml.bind;
  * @see ValidationEventHandler
  * @see ValidationEvent
  * @see javax.xml.bind.util.ValidationEventCollector
- * @since JAXB1.0
+ * @since 1.6, JAXB 1.0
  * @deprecated since JAXB 2.0
  */
 public interface Validator {
@@ -175,7 +210,7 @@ public interface Validator {
         throws JAXBException;
         
     /**
-     * Validate the Java content tree starting at <tt>subrootObj</tt>.
+     * Validate the Java content tree starting at {@code subrootObj}.
      * <p>
      * Client applications can use this method to validate Java content trees
      * on-demand at runtime.  This method can be used to validate any arbitrary
@@ -186,19 +221,19 @@ public interface Validator {
      * @throws JAXBException if any unexpected problem occurs during validation
      * @throws ValidationException 
      *     If the {@link ValidationEventHandler ValidationEventHandler}
-     *     returns false from its <tt>handleEvent</tt> method or the 
-     *     <tt>Validator</tt> is unable to validate the content tree rooted 
-     *     at <tt>subrootObj</tt>
+     *     returns false from its {@code handleEvent} method or the
+     *     {@code Validator} is unable to validate the content tree rooted
+     *     at {@code subrootObj}
      * @throws IllegalArgumentException
      *      If the subrootObj parameter is null
-     * @return true if the subtree rooted at <tt>subrootObj</tt> is valid, false
+     * @return true if the subtree rooted at {@code subrootObj} is valid, false
      *         otherwise
      * @deprecated since JAXB2.0
      */
     public boolean validate( Object subrootObj ) throws JAXBException;
     
     /**
-     * Validate the Java content tree rooted at <tt>rootObj</tt>.
+     * Validate the Java content tree rooted at {@code rootObj}.
      * <p>
      * Client applications can use this method to validate Java content trees
      * on-demand at runtime.  This method is used to validate an entire Java
@@ -209,12 +244,12 @@ public interface Validator {
      * @throws JAXBException if any unexpected problem occurs during validation
      * @throws ValidationException 
      *     If the {@link ValidationEventHandler ValidationEventHandler}
-     *     returns false from its <tt>handleEvent</tt> method or the 
-     *     <tt>Validator</tt> is unable to validate the content tree rooted 
-     *     at <tt>rootObj</tt>
+     *     returns false from its {@code handleEvent} method or the
+     *     {@code Validator} is unable to validate the content tree rooted
+     *     at {@code rootObj}
      * @throws IllegalArgumentException
      *      If the rootObj parameter is null
-     * @return true if the tree rooted at <tt>rootObj</tt> is valid, false
+     * @return true if the tree rooted at {@code rootObj} is valid, false
      *         otherwise
      * @deprecated since JAXB2.0
      */
@@ -222,7 +257,7 @@ public interface Validator {
 
     /**
      * Set the particular property in the underlying implementation of 
-     * <tt>Validator</tt>.  This method can only be used to set one of
+     * {@code Validator}.  This method can only be used to set one of
      * the standard JAXB defined properties above or a provider specific
      * property.  Attempting to set an undefined property will result in
      * a PropertyException being thrown.  See <a href="#supportedProps">
@@ -244,7 +279,7 @@ public interface Validator {
     
     /**
      * Get the particular property in the underlying implementation of 
-     * <tt>Validator</tt>.  This method can only be used to get one of
+     * {@code Validator}.  This method can only be used to get one of
      * the standard JAXB defined properties above or a provider specific
      * property.  Attempting to get an undefined property will result in
      * a PropertyException being thrown.  See <a href="#supportedProps">

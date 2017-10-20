@@ -1,6 +1,41 @@
 /*
- * Copyright 2004 Sun Microsystems, Inc. All rights reserved.
- * SUN PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
+ *
+ * Copyright (c) 2004-2017 Oracle and/or its affiliates. All rights reserved.
+ *
+ * The contents of this file are subject to the terms of either the GNU
+ * General Public License Version 2 only ("GPL") or the Common Development
+ * and Distribution License("CDDL") (collectively, the "License").  You
+ * may not use this file except in compliance with the License.  You can
+ * obtain a copy of the License at
+ * https://oss.oracle.com/licenses/CDDL+GPL-1.1
+ * or LICENSE.txt.  See the License for the specific
+ * language governing permissions and limitations under the License.
+ *
+ * When distributing the software, include this License Header Notice in each
+ * file and include the License file at LICENSE.txt.
+ *
+ * GPL Classpath Exception:
+ * Oracle designates this particular file as subject to the "Classpath"
+ * exception as provided by Oracle in the GPL Version 2 section of the License
+ * file that accompanied this code.
+ *
+ * Modifications:
+ * If applicable, add the following below the License Header, with the fields
+ * enclosed by brackets [] replaced by your own identifying information:
+ * "Portions Copyright [year] [name of copyright owner]"
+ *
+ * Contributor(s):
+ * If you wish your version of this file to be governed by only the CDDL or
+ * only the GPL Version 2, indicate your decision by adding "[Contributor]
+ * elects to include this software in this distribution under the [CDDL or GPL
+ * Version 2] license."  If you don't indicate a single choice of license, a
+ * recipient has the option to distribute your version of this file under
+ * either the CDDL, the GPL Version 2 or to extend the choice of license to
+ * its licensees as provided above.  However, if you add GPL Version 2 code
+ * and therefore, elected the GPL Version 2 license, then the option applies
+ * only if the new code is made subject to such option by the copyright
+ * holder.
  */
 
 package javax.xml.bind.annotation.adapters;
@@ -11,10 +46,10 @@ package javax.xml.bind.annotation.adapters;
  * <p> <b> Usage: </b> </p>
  *
  * <p>
- * Some Java types do not map naturally to a XML representation, for
- * example <tt>HashMap</tt> or other non JavaBean classes. Conversely,
- * a XML repsentation may map to a Java type but an application may
- * choose to accesss the XML representation using another Java
+ * Some Java types do not map naturally to an XML representation, for
+ * example {@code HashMap} or other non JavaBean classes. Conversely,
+ * an XML representation may map to a Java type but an application may
+ * choose to access the XML representation using another Java
  * type. For example, the schema to Java binding rules bind
  * xs:DateTime by default to XmlGregorianCalendar. But an application
  * may desire to bind xs:DateTime to a custom type,
@@ -48,49 +83,49 @@ package javax.xml.bind.annotation.adapters;
  *        XmlJavaTypeAdapter} </li>
  * </ul>
  *
- * <p><b>Example:</b> Customized mapping of </tt>HashMap</tt></p>
+ * <p><b>Example:</b> Customized mapping of {@code HashMap}</p>
  * <p> The following example illustrates the use of 
- * <tt>&#64;XmlAdapter</tt> and <tt>&#64;XmlJavaTypeAdapter</tt> to
- * customize the mapping of a <tt>HashMap</tt>.
+ * {@code @XmlAdapter} and {@code @XmlJavaTypeAdapter} to
+ * customize the mapping of a {@code HashMap}.
  *
  * <p> <b> Step 1: </b> Determine the desired XML representation for HashMap.
  *
- * <pre>
- *     &lt;hashmap>
- *         &lt;entry key="id123">this is a value&lt;/entry>
- *         &lt;entry key="id312">this is another value&lt;/entry>
+ * <pre>{@code
+ *     <hashmap>
+ *         <entry key="id123">this is a value</entry>
+ *         <entry key="id312">this is another value</entry>
  *         ...
- *       &lt;/hashmap>  
- * </pre>
+ *     </hashmap>
+ * }</pre>
  *
  * <p> <b> Step 2: </b> Determine the schema definition that the
  * desired XML representation shown above should follow.
  *
- * <pre>
+ * <pre>{@code
  *     
- *     &lt;xs:complexType name="myHashMapType">
- *       &lt;xs:sequence>
- *         &lt;xs:element name="entry" type="myHashMapEntryType"
+ *     <xs:complexType name="myHashMapType">
+ *       <xs:sequence>
+ *         <xs:element name="entry" type="myHashMapEntryType"
  *                        minOccurs = "0" maxOccurs="unbounded"/>
- *       &lt;/xs:sequence>
- *     &lt;/xs:complexType>
+ *       </xs:sequence>
+ *     </xs:complexType>
  *
- *     &lt;xs:complexType name="myHashMapEntryType">
- *       &lt;xs:simpleContent>
- *         &lt;xs:extension base="xs:string">
- *           &lt;xs:attribute name="key" type="xs:int"/>
- *         &lt;/xs:extension>
- *       &lt;/xs:simpleContent>
- *     &lt;/xs:complexType>
+ *     <xs:complexType name="myHashMapEntryType">
+ *       <xs:simpleContent>
+ *         <xs:extension base="xs:string">
+ *           <xs:attribute name="key" type="xs:int"/>
+ *         </xs:extension>
+ *       </xs:simpleContent>
+ *     </xs:complexType>
  *
- * </pre>
+ * }</pre>
  *
  * <p> <b> Step 3: </b> Write value types that can generate the above
  * schema definition.
  *
  * <pre>
  *     public class MyHashMapType {
- *         List&lt;MyHashMapEntryType> entry;
+ *         List&lt;MyHashMapEntryType&gt; entry;
  *     }
  *
  *     public class MyHashMapEntryType {
@@ -105,11 +140,11 @@ package javax.xml.bind.annotation.adapters;
  * <p> <b> Step 4: </b> Write the adapter that adapts the value type,
  * MyHashMapType to a bound type, HashMap, used by the application.
  *
- * <pre>
+ * <pre>{@code
  *     public final class MyHashMapAdapter extends
- *                        XmlAdapter&lt;MyHashMapType,HashMap> { ... }
+ *                        XmlAdapter<MyHashMapType,HashMap> { ... }
  *      
- * </pre>
+ * }</pre>
  *
  * <p> <b> Step 5: </b> Use the adapter.
  *
@@ -123,24 +158,24 @@ package javax.xml.bind.annotation.adapters;
  *
  * The above code fragment will map to the following schema:
  * 
- * <pre>
- *     &lt;xs:complexType name="Foo">
- *       &lt;xs:sequence>
- *         &lt;xs:element name="hashmap" type="myHashMapType"
- *       &lt;/xs:sequence>
- *     &lt;/xs:complexType>
- * </pre>
+ * <pre>{@code
+ *     <xs:complexType name="Foo">
+ *       <xs:sequence>
+ *         <xs:element name="hashmap" type="myHashMapType">
+ *       </xs:sequence>
+ *     </xs:complexType>
+ * }</pre>
  *
  * @param <BoundType>
  *      The type that JAXB doesn't know how to handle. An adapter is written
  *      to allow this type to be used as an in-memory representation through
- *      the <tt>ValueType</tt>.
+ *      the {@code ValueType}.
  * @param <ValueType>
  *      The type that JAXB knows how to handle out of the box.
  *
  * @author <ul><li>Sekhar Vajjhala, Sun Microsystems Inc.</li> <li> Kohsuke Kawaguchi, Sun Microsystems Inc.</li></ul>
  * @see XmlJavaTypeAdapter
- * @since JAXB 2.0
+ * @since 1.6, JAXB 2.0
  */
 public abstract class XmlAdapter<ValueType,BoundType> {
 

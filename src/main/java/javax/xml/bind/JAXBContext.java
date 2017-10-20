@@ -7,6 +7,8 @@ package javax.xml.bind;
 
 import org.w3c.dom.Node;
 
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Properties;
@@ -276,9 +278,22 @@ public abstract class JAXBContext {
         throws JAXBException {
             
         //return newInstance( contextPath, JAXBContext.class.getClassLoader() );
-        return newInstance( contextPath, Thread.currentThread().getContextClassLoader() );
+        return newInstance( contextPath, getContextClassLoader() );
     }
-    
+
+    private static ClassLoader getContextClassLoader() {
+        final SecurityManager sm = System.getSecurityManager();
+        if (sm != null) {
+            return AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
+                @Override
+                public ClassLoader run() {
+                    return Thread.currentThread().getContextClassLoader();
+                }
+            });
+        }
+        return Thread.currentThread().getContextClassLoader();
+    }
+
     /**
      * <p>
      * Obtain a new instance of a <tt>JAXBContext</tt> class.

@@ -1,6 +1,41 @@
 /*
- * Copyright 2004 Sun Microsystems, Inc. All rights reserved.
- * SUN PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
+ *
+ * Copyright (c) 2004-2017 Oracle and/or its affiliates. All rights reserved.
+ *
+ * The contents of this file are subject to the terms of either the GNU
+ * General Public License Version 2 only ("GPL") or the Common Development
+ * and Distribution License("CDDL") (collectively, the "License").  You
+ * may not use this file except in compliance with the License.  You can
+ * obtain a copy of the License at
+ * https://oss.oracle.com/licenses/CDDL+GPL-1.1
+ * or LICENSE.txt.  See the License for the specific
+ * language governing permissions and limitations under the License.
+ *
+ * When distributing the software, include this License Header Notice in each
+ * file and include the License file at LICENSE.txt.
+ *
+ * GPL Classpath Exception:
+ * Oracle designates this particular file as subject to the "Classpath"
+ * exception as provided by Oracle in the GPL Version 2 section of the License
+ * file that accompanied this code.
+ *
+ * Modifications:
+ * If applicable, add the following below the License Header, with the fields
+ * enclosed by brackets [] replaced by your own identifying information:
+ * "Portions Copyright [year] [name of copyright owner]"
+ *
+ * Contributor(s):
+ * If you wish your version of this file to be governed by only the CDDL or
+ * only the GPL Version 2, indicate your decision by adding "[Contributor]
+ * elects to include this software in this distribution under the [CDDL or GPL
+ * Version 2] license."  If you don't indicate a single choice of license, a
+ * recipient has the option to distribute your version of this file under
+ * either the CDDL, the GPL Version 2 or to extend the choice of license to
+ * its licensees as provided above.  However, if you add GPL Version 2 code
+ * and therefore, elected the GPL Version 2 license, then the option applies
+ * only if the new code is made subject to such option by the copyright
+ * holder.
  */
 
 package javax.xml.bind.annotation;
@@ -34,7 +69,7 @@ import static java.lang.annotation.ElementType.TYPE;
  * <p> This annotation can be used with the following annotations:
  * {@link XmlType}, {@link XmlEnum}, {@link XmlAccessorType}, 
  * {@link XmlAccessorOrder}.
- * <p>
+ * </p>
 
  * <p>
  * <b>Example 1: </b> Associate an element with XML Schema type
@@ -53,19 +88,21 @@ import static java.lang.annotation.ElementType.TYPE;
  *     marshal( new Point(3,5), System.out);
  * </pre>
  *
- * <pre><xmp>
+ * <pre>{@code
+ * 
  *     <!-- Example: XML output -->
  *     <point>
  *       <x> 3 </x>
  *       <y> 5 </y>
  *     </point>
- * </xmp></pre>
+ * }</pre>
  *
  * The annotation causes an global element declaration to be produced
  * in the schema. The global element declaration is associated with
  * the XML schema type to which the class is mapped.
  *
- * <pre><xmp>
+ * <pre>{@code
+ * 
  *     <!-- Example: XML schema definition -->
  *     <xs:element name="point" type="point"/>
  *     <xs:complexType name="point">
@@ -74,7 +111,7 @@ import static java.lang.annotation.ElementType.TYPE;
  *         <xs:element name="y" type="xs:int"/>
  *       </xs:sequence>
  *     </xs:complexType>
- * </xmp></pre>
+ * }</pre>
  *
  * <p>
  *
@@ -93,27 +130,28 @@ import static java.lang.annotation.ElementType.TYPE;
  *
  *     //Example: Code fragment corresponding to XML output * 
  *     marshal( new Point3D(3,5,0), System.out );
+ * {@code
+ * 
+ *     <!-- Example: XML output -->
+ *     <!-- The element name is point3D not point -->
+ *     <point3D>
+ *       <x>3</x>
+ *       <y>5</y>
+ *       <z>0</z>
+ *     </point3D>
  *
- *     &lt;!-- Example: XML output -->
- *     &lt;!-- The element name is point3D not point -->
- *     &lt;point3D>
- *       &lt;x>3&lt;/x>
- *       &lt;y>5&lt;/y>
- *       &lt;z>0&lt;/z>
- *     &lt;/point3D>
- *
- *     &lt;!-- Example: XML schema definition -->
- *     &lt;xs:element name="point3D" type="point3D"/>
- *     &lt;xs:complexType name="point3D">
- *       &lt;xs:complexContent>
- *         &lt;xs:extension base="point">
- *           &lt;xs:sequence>
- *             &lt;xs:element name="z" type="xs:int"/>
- *           &lt;/xs:sequence>
- *         &lt;/xs:extension>
- *       &lt;/xs:complexContent>
- *     &lt;/xs:complexType>
- * </pre>
+ *     <!-- Example: XML schema definition -->
+ *     <xs:element name="point3D" type="point3D"/>
+ *     <xs:complexType name="point3D">
+ *       <xs:complexContent>
+ *         <xs:extension base="point">
+ *           <xs:sequence>
+ *             <xs:element name="z" type="xs:int"/>
+ *           </xs:sequence>
+ *         </xs:extension>
+ *       </xs:complexContent>
+ *     </xs:complexType>
+ * }</pre>
  *
  * <b>Example 3: </b> Associate a global element with XML Schema type
  * to which the class is mapped.
@@ -124,18 +162,19 @@ import static java.lang.annotation.ElementType.TYPE;
  *         &#64;XmlElement
  *         public java.math.BigDecimal price;
  *     }
- *
- *     &lt;!-- Example: XML schema definition -->
- *     &lt;xs:element name="PriceElement" type="USPrice"/>
- *     &lt;xs:complexType name="USPrice">
- *       &lt;xs:sequence>
- *         &lt;xs:element name="price" type="xs:decimal"/>
- *       &lt;/sequence>
- *     &lt;/xs:complexType>
- * </pre>
+ * {@code
+ * 
+ *     <!-- Example: XML schema definition -->
+ *     <xs:element name="PriceElement" type="USPrice"/>
+ *     <xs:complexType name="USPrice">
+ *       <xs:sequence>
+ *         <xs:element name="price" type="xs:decimal"/>
+ *       </sequence>
+ *     </xs:complexType>
+ * }</pre>
  *
  * @author Sekhar Vajjhala, Sun Microsystems, Inc.
- * @since JAXB2.0
+ * @since 1.6, JAXB 2.0
  */
 @Retention(RUNTIME)
 @Target({TYPE})

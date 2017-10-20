@@ -1,6 +1,41 @@
 /*
- * Copyright 2004 Sun Microsystems, Inc. All rights reserved.
- * SUN PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
+ *
+ * Copyright (c) 2004-2017 Oracle and/or its affiliates. All rights reserved.
+ *
+ * The contents of this file are subject to the terms of either the GNU
+ * General Public License Version 2 only ("GPL") or the Common Development
+ * and Distribution License("CDDL") (collectively, the "License").  You
+ * may not use this file except in compliance with the License.  You can
+ * obtain a copy of the License at
+ * https://oss.oracle.com/licenses/CDDL+GPL-1.1
+ * or LICENSE.txt.  See the License for the specific
+ * language governing permissions and limitations under the License.
+ *
+ * When distributing the software, include this License Header Notice in each
+ * file and include the License file at LICENSE.txt.
+ *
+ * GPL Classpath Exception:
+ * Oracle designates this particular file as subject to the "Classpath"
+ * exception as provided by Oracle in the GPL Version 2 section of the License
+ * file that accompanied this code.
+ *
+ * Modifications:
+ * If applicable, add the following below the License Header, with the fields
+ * enclosed by brackets [] replaced by your own identifying information:
+ * "Portions Copyright [year] [name of copyright owner]"
+ *
+ * Contributor(s):
+ * If you wish your version of this file to be governed by only the CDDL or
+ * only the GPL Version 2, indicate your decision by adding "[Contributor]
+ * elects to include this software in this distribution under the [CDDL or GPL
+ * Version 2] license."  If you don't indicate a single choice of license, a
+ * recipient has the option to distribute your version of this file under
+ * either the CDDL, the GPL Version 2 or to extend the choice of license to
+ * its licensees as provided above.  However, if you add GPL Version 2 code
+ * and therefore, elected the GPL Version 2 license, then the option applies
+ * only if the new code is made subject to such option by the copyright
+ * holder.
  */
 
 package javax.xml.bind.annotation;
@@ -17,13 +52,13 @@ import static java.lang.annotation.RetentionPolicy.*;
  * <p>
  * To preserve referential integrity of an object graph across XML
  * serialization followed by a XML deserialization, requires an object
- * reference to be marshalled by reference or containment
- * appropriately. Annotations <tt>&#64;XmlID</tt> and <tt>&#64;XmlIDREF</tt>
+ * reference to be marshaled by reference or containment
+ * appropriately. Annotations {@code @XmlID} and {@code @XmlIDREF}
  * together allow a customized mapping of a JavaBean property's
  * type by containment or reference. 
  *
  * <p><b>Usage</b> </p>
- * The <tt>&#64;XmlIDREF</tt> annotation can be used with the following
+ * The {@code @XmlIDREF} annotation can be used with the following
  * program elements: 
  * <ul> 
  *   <li> a JavaBean property </li>
@@ -38,21 +73,21 @@ import static java.lang.annotation.RetentionPolicy.*;
  *
  *   <li> If the type of the field or property is a collection type,
  *        then the collection item type must contain a property or
- *        field annotated with <tt>&#64;XmlID</tt>.  </li> 
+ *        field annotated with {@code @XmlID}.  </li>
  *   <li> If the field or property is single valued, then the type of
  *        the property or field must contain a property or field
- *        annotated with <tt>&#64;XmlID</tt>.
+ *        annotated with {@code @XmlID}.
  *        <p>Note: If the collection item type or the type of the
  *        property (for non collection type) is java.lang.Object, then
  *        the instance must contain a property/field annotated with
- *        <tt>&#64;XmlID</tt> attribute.  
+ *        {@code @XmlID} attribute.
  *        </li>
  *   <li> This annotation can be used with the following annotations:
  *        {@link XmlElement}, {@link XmlAttribute}, {@link XmlList}, 
  *        and {@link XmlElements}.</li>  
  *
  * </ul>
- * <p><b>Example:</b> Map a JavaBean property to <tt>xs:IDREF</tt>
+ * <p><b>Example:</b> Map a JavaBean property to {@code xs:IDREF}
  *   (i.e. by reference rather than by containment)</p>
  * <pre>
  *
@@ -62,28 +97,29 @@ import static java.lang.annotation.RetentionPolicy.*;
  *       public void setCustomer(Customer customer);
  *       ....
  *    }
- *
- *   &lt;!-- Example: XML Schema fragment -->
- *   &lt;xs:complexType name="Shipping">
- *     &lt;xs:complexContent>
- *       &lt;xs:sequence>
- *         &lt;xs:element name="customer" type="xs:IDREF"/>
+ * {@code
+ * 
+ *   <!-- Example: XML Schema fragment -->
+ *   <xs:complexType name="Shipping">
+ *     <xs:complexContent>
+ *       <xs:sequence>
+ *         <xs:element name="customer" type="xs:IDREF"/>
  *         ....
- *       &lt;/xs:sequence>
- *     &lt;/xs:complexContent>
- *   &lt;/xs:complexType>
+ *       </xs:sequence>
+ *     </xs:complexContent>
+ *   </xs:complexType>
  *
- * </pre>
+ * }</pre>
  *
  *
  * <p><b>Example 2: </b> The following is a complete example of
  * containment versus reference.
  * 
  * <pre>
- *    // By default, Customer maps to complex type <tt>xs:Customer</tt>
+ *    // By default, Customer maps to complex type {@code xs:Customer}
  *    public class Customer {
  *        
- *        // map JavaBean property type to <tt>xs:ID</tt>
+ *        // map JavaBean property type to {@code xs:ID}
  *        &#64;XmlID public String getCustomerID();
  *        public void setCustomerID(String id);
  *
@@ -91,7 +127,7 @@ import static java.lang.annotation.RetentionPolicy.*;
  *    }
  *
  *
- *   // By default, Invoice maps to a complex type <tt>xs:Invoice</tt> 
+ *   // By default, Invoice maps to a complex type {@code xs:Invoice}
  *   public class Invoice {
  *    
  *       // map by reference
@@ -101,7 +137,7 @@ import static java.lang.annotation.RetentionPolicy.*;
  *      // .... other properties not shown here
  *   }
  *
- *   // By default, Shipping maps to complex type <tt>xs:Shipping</tt>
+ *   // By default, Shipping maps to complex type {@code xs:Shipping}
  *   public class Shipping {
  *
  *       // map by reference
@@ -122,64 +158,65 @@ import static java.lang.annotation.RetentionPolicy.*;
  *       // maps reference to Invoice by containment by default. 
  *       public Invoice getInvoice();     
  *   }
+ * {@code
+ * 
+ *   <!-- XML Schema mapping for above code frament -->
  *
- *   &lt;!-- XML Schema mapping for above code frament -->
- *
- *   &lt;xs:complexType name="Invoice">
- *     &lt;xs:complexContent>
- *       &lt;xs:sequence>
- *         &lt;xs:element name="customer" type="xs:IDREF"/>
+ *   <xs:complexType name="Invoice">
+ *     <xs:complexContent>
+ *       <xs:sequence>
+ *         <xs:element name="customer" type="xs:IDREF"/>
  *         ....
- *       &lt;/xs:sequence>
- *     &lt;/xs:complexContent>
- *   &lt;/xs:complexType>
+ *       </xs:sequence>
+ *     </xs:complexContent>
+ *   </xs:complexType>
  *
- *   &lt;xs:complexType name="Shipping">
- *     &lt;xs:complexContent>
- *       &lt;xs:sequence>
- *         &lt;xs:element name="customer" type="xs:IDREF"/>
+ *   <xs:complexType name="Shipping">
+ *     <xs:complexContent>
+ *       <xs:sequence>
+ *         <xs:element name="customer" type="xs:IDREF"/>
  *         ....
- *       &lt;/xs:sequence>
- *     &lt;/xs:complexContent>
- *   &lt;/xs:complexType>
+ *       </xs:sequence>
+ *     </xs:complexContent>
+ *   </xs:complexType>
  *
- *   &lt;xs:complexType name="Customer">
- *     &lt;xs:complexContent>
- *       &lt;xs:sequence>
+ *   <xs:complexType name="Customer">
+ *     <xs:complexContent>
+ *       <xs:sequence>
  *         ....
- *       &lt;/xs:sequence>
- *       &lt;xs:attribute name="CustomerID" type="xs:ID"/>
- *     &lt;/xs:complexContent>
- *   &lt;/xs:complexType>
+ *       </xs:sequence>
+ *       <xs:attribute name="CustomerID" type="xs:ID"/>
+ *     </xs:complexContent>
+ *   </xs:complexType>
  *
- *   &lt;xs:complexType name="CustomerData">
- *     &lt;xs:complexContent>
- *       &lt;xs:sequence>
- *         &lt;xs:element name="customer" type="xs:Customer"/>
- *         &lt;xs:element name="shipping" type="xs:Shipping"/>
- *         &lt;xs:element name="invoice"  type="xs:Invoice"/>
- *       &lt;/xs:sequence>
- *     &lt;/xs:complexContent>
- *   &lt;/xs:complexType>
+ *   <xs:complexType name="CustomerData">
+ *     <xs:complexContent>
+ *       <xs:sequence>
+ *         <xs:element name="customer" type="xs:Customer"/>
+ *         <xs:element name="shipping" type="xs:Shipping"/>
+ *         <xs:element name="invoice"  type="xs:Invoice"/>
+ *       </xs:sequence>
+ *     </xs:complexContent>
+ *   </xs:complexType>
  *
- *   &lt;xs:element name"customerData" type="xs:CustomerData"/>
+ *   <xs:element name"customerData" type="xs:CustomerData"/>
  *
- *   &lt;!-- Instance document conforming to the above XML Schema -->
- *    &lt;customerData>
- *       &lt;customer customerID="Alice">
+ *   <!-- Instance document conforming to the above XML Schema -->
+ *    <customerData>
+ *       <customer customerID="Alice">
  *           ....
- *       &lt;/customer>
+ *       </customer>
  *
- *       &lt;shipping customer="Alice">
+ *       <shipping customer="Alice">
  *           ....
- *       &lt;/shipping>
+ *       </shipping>
  *         
- *       &lt;invoice customer="Alice">
+ *       <invoice customer="Alice">
  *           ....
- *       &lt;/invoice>
- *   &lt;/customerData>
+ *       </invoice>
+ *   </customerData>
  *
- * </pre>
+ * }</pre>
  *
  * <p><b>Example 3: </b> Mapping List to repeating element of type IDREF
  * <pre>
@@ -189,16 +226,17 @@ import static java.lang.annotation.RetentionPolicy.*;
  *         &#64;XmlElement(name="Alice")
  *             public List customers;
  *     }
- *
- *     &lt;!-- XML schema fragment -->
- *     &lt;xs:complexType name="Shipping">
- *       &lt;xs:sequence>
- *         &lt;xs:choice minOccurs="0" maxOccurs="unbounded">
- *           &lt;xs:element name="Alice" type="xs:IDREF"/>
- *         &lt;/xs:choice>
- *       &lt;/xs:sequence>
- *     &lt;/xs:complexType> 
- * </pre>
+ * {@code
+ * 
+ *     <!-- XML schema fragment -->
+ *     <xs:complexType name="Shipping">
+ *       <xs:sequence>
+ *         <xs:choice minOccurs="0" maxOccurs="unbounded">
+ *           <xs:element name="Alice" type="xs:IDREF"/>
+ *         </xs:choice>
+ *       </xs:sequence>
+ *     </xs:complexType>
+ * }</pre>
  *
  * <p><b>Example 4: </b> Mapping a List to a list of elements of type IDREF.
  * <pre>
@@ -210,20 +248,21 @@ import static java.lang.annotation.RetentionPolicy.*;
  *              &#64;XmlElement(name="John", type="InternationalCustomer.class")
  *         public List customers;
  *     }
- *
- *     &lt;!-- XML Schema fragment -->
- *     &lt;xs:complexType name="Shipping">
- *       &lt;xs:sequence>
- *         &lt;xs:choice minOccurs="0" maxOccurs="unbounded">
- *           &lt;xs:element name="Alice" type="xs:IDREF"/>
- *           &lt;xs:element name="John" type="xs:IDREF"/>
- *         &lt;/xs:choice>
- *       &lt;/xs:sequence>
- *     &lt;/xs:complexType> 
- * </pre>
+ * {@code
+ * 
+ *     <!-- XML Schema fragment -->
+ *     <xs:complexType name="Shipping">
+ *       <xs:sequence>
+ *         <xs:choice minOccurs="0" maxOccurs="unbounded">
+ *           <xs:element name="Alice" type="xs:IDREF"/>
+ *           <xs:element name="John" type="xs:IDREF"/>
+ *         </xs:choice>
+ *       </xs:sequence>
+ *     </xs:complexType>
+ * }</pre>
  * @author Sekhar Vajjhala, Sun Microsystems, Inc. 
  * @see XmlID
- * @since JAXB2.0
+ * @since 1.6, JAXB 2.0
  */
 
 @Retention(RUNTIME) @Target({FIELD, METHOD})

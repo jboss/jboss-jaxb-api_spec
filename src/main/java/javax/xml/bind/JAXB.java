@@ -1,3 +1,43 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
+ *
+ * Copyright (c) 2006-2017 Oracle and/or its affiliates. All rights reserved.
+ *
+ * The contents of this file are subject to the terms of either the GNU
+ * General Public License Version 2 only ("GPL") or the Common Development
+ * and Distribution License("CDDL") (collectively, the "License").  You
+ * may not use this file except in compliance with the License.  You can
+ * obtain a copy of the License at
+ * https://oss.oracle.com/licenses/CDDL+GPL-1.1
+ * or LICENSE.txt.  See the License for the specific
+ * language governing permissions and limitations under the License.
+ *
+ * When distributing the software, include this License Header Notice in each
+ * file and include the License file at LICENSE.txt.
+ *
+ * GPL Classpath Exception:
+ * Oracle designates this particular file as subject to the "Classpath"
+ * exception as provided by Oracle in the GPL Version 2 section of the License
+ * file that accompanied this code.
+ *
+ * Modifications:
+ * If applicable, add the following below the License Header, with the fields
+ * enclosed by brackets [] replaced by your own identifying information:
+ * "Portions Copyright [year] [name of copyright owner]"
+ *
+ * Contributor(s):
+ * If you wish your version of this file to be governed by only the CDDL or
+ * only the GPL Version 2, indicate your decision by adding "[Contributor]
+ * elects to include this software in this distribution under the [CDDL or GPL
+ * Version 2] license."  If you don't indicate a single choice of license, a
+ * recipient has the option to distribute your version of this file under
+ * either the CDDL, the GPL Version 2 or to extend the choice of license to
+ * its licensees as provided above.  However, if you add GPL Version 2 code
+ * and therefore, elected the GPL Version 2 license, then the option applies
+ * only if the new code is made subject to such option by the copyright
+ * holder.
+ */
+
 package javax.xml.bind;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -43,7 +83,7 @@ import java.net.URLConnection;
  * </ol>
  *
  * <p>
- * In addition, the <tt>unmarshal</tt> methods have the following characteristic:
+ * In addition, the {@code unmarshal} methods have the following characteristic:
  *
  * <ol>
  *  <li>Schema validation is not performed on the input XML.
@@ -53,7 +93,7 @@ import java.net.URLConnection;
  * </ol>
  *
  * <p>
- * Similarly, the <tt>marshal</tt> methods have the following characteristic:
+ * Similarly, the {@code marshal} methods have the following characteristic:
  * <ol>
  *  <li>The processing will try to continue even if the Java object tree
  *      does not meet the validity requirement. Only as
@@ -63,11 +103,11 @@ import java.net.URLConnection;
  *
  * <p>
  * All the methods on this class require non-null arguments to all parameters.
- * The <tt>unmarshal</tt> methods either fail with an exception or return
+ * The {@code unmarshal} methods either fail with an exception or return
  * a non-null value.
  *
  * @author Kohsuke Kawaguchi
- * @since 2.1
+ * @since 1.6, JAXB 2.1
  */
 public final class JAXB {
     /**
@@ -154,7 +194,7 @@ public final class JAXB {
      *
      * @param xml
      *      The URI is {@link URI#toURL() turned into URL} and then
-     *      follows the handling of <tt>URL</tt>.
+     *      follows the handling of {@code URL}.
      */
     public static <T> T unmarshal( URI xml, Class<T> type ) {
         try {
@@ -171,9 +211,9 @@ public final class JAXB {
      * Reads in a Java object tree from the given XML input.
      *
      * @param xml
-     *      The string is first interpreted as an absolute <tt>URI</tt>.
+     *      The string is first interpreted as an absolute {@code URI}.
      *      If it's not {@link URI#isAbsolute() a valid absolute URI},
-     *      then it's interpreted as a <tt>File</tt>
+     *      then it's interpreted as a {@code File}
      */
     public static <T> T unmarshal( String xml, Class<T> type ) {
         try {
@@ -322,8 +362,8 @@ public final class JAXB {
      *
      * @param xml
      *      The XML will be {@link URLConnection#getOutputStream() sent} to the
-     *      resource pointed by this URL. Note that not all <tt>URL</tt>s support
-     *      such operation, and exact semantics depends on the <tt>URL</tt>
+     *      resource pointed by this URL. Note that not all {@code URL}s support
+     *      such operation, and exact semantics depends on the {@code URL}
      *      implementations. In case of {@link HttpURLConnection HTTP URLs},
      *      this will perform HTTP POST.
      *
@@ -349,7 +389,7 @@ public final class JAXB {
      *
      * @param xml
      *      The URI is {@link URI#toURL() turned into URL} and then
-     *      follows the handling of <tt>URL</tt>. See above.
+     *      follows the handling of {@code URL}. See above.
      *
      * @throws DataBindingException
      *      If the operation fails, such as due to I/O error, unbindable classes.
@@ -372,9 +412,9 @@ public final class JAXB {
      *      This parameter must not be null.
      *
      * @param xml
-     *      The string is first interpreted as an absolute <tt>URI</tt>.
+     *      The string is first interpreted as an absolute {@code URI}.
      *      If it's not {@link URI#isAbsolute() a valid absolute URI},
-     *      then it's interpreted as a <tt>File</tt>
+     *      then it's interpreted as a {@code File}
      *
      * @throws DataBindingException
      *      If the operation fails, such as due to I/O error, unbindable classes.
@@ -497,19 +537,19 @@ public final class JAXB {
      *      </tr><tr>
      *          <td>{@link URL}</td>
      *          <td>The XML will be {@link URLConnection#getOutputStream() sent} to the
-     *              resource pointed by this URL. Note that not all <tt>URL</tt>s support
-     *              such operation, and exact semantics depends on the <tt>URL</tt>
+     *              resource pointed by this URL. Note that not all {@code URL}s support
+     *              such operation, and exact semantics depends on the {@code URL}
      *              implementations. In case of {@link HttpURLConnection HTTP URLs},
      *              this will perform HTTP POST.</td>
      *      </tr><tr>
      *          <td>{@link URI}</td>
      *          <td>The URI is {@link URI#toURL() turned into URL} and then
-     *              follows the handling of <tt>URL</tt>. See above.</td>
+     *              follows the handling of {@code URL}. See above.</td>
      *      </tr><tr>
      *          <td>{@link String}</td>
-     *          <td>The string is first interpreted as an absolute <tt>URI</tt>.
+     *          <td>The string is first interpreted as an absolute {@code URI}.
      *              If it's not {@link URI#isAbsolute() a valid absolute URI},
-     *              then it's interpreted as a <tt>File</tt></td>
+     *              then it's interpreted as a {@code File}</td>
      *      </tr><tr>
      *          <td>{@link OutputStream}</td>
      *          <td>The XML will be sent to the given {@link OutputStream}.

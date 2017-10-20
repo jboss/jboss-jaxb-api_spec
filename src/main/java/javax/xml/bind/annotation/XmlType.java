@@ -1,6 +1,41 @@
 /*
- * Copyright 2004 Sun Microsystems, Inc. All rights reserved.
- * SUN PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
+ *
+ * Copyright (c) 2004-2017 Oracle and/or its affiliates. All rights reserved.
+ *
+ * The contents of this file are subject to the terms of either the GNU
+ * General Public License Version 2 only ("GPL") or the Common Development
+ * and Distribution License("CDDL") (collectively, the "License").  You
+ * may not use this file except in compliance with the License.  You can
+ * obtain a copy of the License at
+ * https://oss.oracle.com/licenses/CDDL+GPL-1.1
+ * or LICENSE.txt.  See the License for the specific
+ * language governing permissions and limitations under the License.
+ *
+ * When distributing the software, include this License Header Notice in each
+ * file and include the License file at LICENSE.txt.
+ *
+ * GPL Classpath Exception:
+ * Oracle designates this particular file as subject to the "Classpath"
+ * exception as provided by Oracle in the GPL Version 2 section of the License
+ * file that accompanied this code.
+ *
+ * Modifications:
+ * If applicable, add the following below the License Header, with the fields
+ * enclosed by brackets [] replaced by your own identifying information:
+ * "Portions Copyright [year] [name of copyright owner]"
+ *
+ * Contributor(s):
+ * If you wish your version of this file to be governed by only the CDDL or
+ * only the GPL Version 2, indicate your decision by adding "[Contributor]
+ * elects to include this software in this distribution under the [CDDL or GPL
+ * Version 2] license."  If you don't indicate a single choice of license, a
+ * recipient has the option to distribute your version of this file under
+ * either the CDDL, the GPL Version 2 or to extend the choice of license to
+ * its licensees as provided above.  However, if you add GPL Version 2 code
+ * and therefore, elected the GPL Version 2 license, then the option applies
+ * only if the new code is made subject to such option by the copyright
+ * holder.
  */
 
 package javax.xml.bind.annotation;
@@ -15,7 +50,7 @@ import java.lang.annotation.Target;
  * Maps a class or an enum type to a XML Schema type.
  *
  * <p><b>Usage</b></p>
- * <p> The <tt>@XmlType</tt> annnotation can be used with the following program
+ * <p> The {@code @XmlType} annnotation can be used with the following program
  * elements:
  * <ul>
  *   <li> a top level class </li>
@@ -33,8 +68,8 @@ import java.lang.annotation.Target;
  * schema type's content model (e.g. model groups, attributes etc).
  * <p> To be mapped, a class must either have a public no-arg
  * constructor or a static no-arg factory method. The static factory
- * method can be specified in <tt>factoryMethod()</tt> and
- * <tt>factoryClass()</tt> annotation elements. The static factory
+ * method can be specified in {@code factoryMethod()} and
+ * {@code factoryClass()} annotation elements. The static factory
  * method or the no-arg constructor is used during unmarshalling to
  * create an instance of this class. If both are present, the static
  * factory method overrides the no-arg constructor.
@@ -44,7 +79,7 @@ import java.lang.annotation.Target;
  * mapping of JavaBean properties and fields contained within the
  * class. The schema type to which the class is mapped can either be
  * named or anonymous. A class can be mapped to an anonymous schema
- * type by annotating the class with <tt>&#64XmlType(name="")</tt>. 
+ * type by annotating the class with {@code @XmlType(name="")}.
  * <p>
  * Either a global element, local element or a local attribute can be
  * associated with an anonymous type as follows:
@@ -64,45 +99,45 @@ import java.lang.annotation.Target;
  * </ul>
  * <b> Mapping to XML Schema Complex Type </b>
  * <ul>
- *   <li>If class is annotated with <tt>@XmlType(name="") </tt>, it
+ *   <li>If class is annotated with {@code @XmlType(name="") }, it
  *   is mapped to an anonymous type otherwise, the class name maps
- *   to a complex type name. The <tt>XmlName()</tt> annotation element
+ *   to a complex type name. The {@code XmlName()} annotation element
  *   can be used to customize the name.</li>  
  *
  *   <li> Properties and fields that are mapped to elements are mapped to a
  *   content model within a complex type. The annotation element
- *   <tt>propOrder()</tt> can be used to customize the content model to be
- *   <tt>xs:all</tt> or <tt>xs:sequence</tt>.  It is used for specifying
- *   the order of XML elements in <tt>xs:sequence</tt>. </li> 
+ *   {@code propOrder()} can be used to customize the content model to be
+ *   {@code xs:all} or {@code xs:sequence}.  It is used for specifying
+ *   the order of XML elements in {@code xs:sequence}. </li>
  *
  *   <li> Properties and fields can be mapped to attributes within the
  *        complex type.  </li>
  *
  *   <li> The targetnamespace of the XML Schema type can be customized
- *        using the annotation element <tt>namespace()</tt>. </li>
+ *        using the annotation element {@code namespace()}. </li>
  * </ul>
  *
  * <p>
  * <b> Mapping class to XML Schema simple type </b>
  * <p>
  * A class can be mapped to a XML Schema simple type using the
- * <tt>@XmlValue</tt> annotation. For additional details and examples,
+ * {@code @XmlValue} annotation. For additional details and examples,
  * see @{@link XmlValue} annotation type.
  * <p>
  * The following table shows the mapping of the class to a XML Schema
  * complex type or simple type. The notational symbols used in the table are:
  * <ul>
- *   <li> ->    : represents a mapping </li>
+ *   <li> {@literal ->}    : represents a mapping </li>
  *   <li> [x]+  : one or more occurances of x </li>
- *   <li> [ <tt>@XmlValue</tt> property ]: JavaBean property annotated with
- *         <tt>@XmlValue</tt></li>
+ *   <li> [ {@code @XmlValue} property ]: JavaBean property annotated with
+ *         {@code @XmlValue}</li>
  *   <li> X     : don't care
  * </ul>
  * <blockquote>
- *   <table border="1" cellpadding="4" cellspacing="3">
+ *   <table summary="" border="1" cellpadding="4" cellspacing="3">
  *     <tbody>
  *       <tr>
- *         <td><b>Target</td>
+ *         <td><b>Target</b></td>
  *         <td><b>propOrder</b></td>
  *         <td><b>ClassBody</b></td>
  *         <td><b>ComplexType</b></td>
@@ -112,7 +147,7 @@ import java.lang.annotation.Target;
  *       <tr valign="top">
  *         <td>Class</td>
  *         <td>{}</td>
- *         <td>[property]+ -> elements</td>
+ *         <td>[property]+ {@literal ->} elements</td>
  *         <td>complexcontent<br>xs:all</td>
  *         <td> </td>
  *       </tr>
@@ -120,7 +155,7 @@ import java.lang.annotation.Target;
  *       <tr valign="top">
  *         <td>Class</td>
  *         <td>non empty</td>
- *         <td>[property]+ -> elements</td>
+ *         <td>[property]+ {@literal ->} elements</td>
  *         <td>complexcontent<br>xs:sequence</td>
  *         <td> </td>
  *       </tr>
@@ -128,7 +163,7 @@ import java.lang.annotation.Target;
  *       <tr valign="top">
  *         <td>Class</td>
  *         <td>X</td>
- *         <td>no property -> element</td>
+ *         <td>no property {@literal ->} element</td>
  *         <td>complexcontent<br>empty sequence</td>
  *         <td> </td>
  *       </tr>
@@ -136,8 +171,7 @@ import java.lang.annotation.Target;
  *       <tr valign="top">
  *         <td>Class</td>
  *         <td>X</td>
- *         <td>1 [ <tt>@XmlValue</tt> property] && <br> [property]+
- *             ->attributes</td> 
+ *         <td>1 [{@code @XmlValue} property] {@literal &&} <br> [property]+ {@literal ->} attributes</td>
  *         <td>simplecontent</td>
  *         <td> </td>
  *       </tr>
@@ -145,11 +179,9 @@ import java.lang.annotation.Target;
  *       <tr valign="top">
  *         <td>Class</td>
  *         <td>X</td>
- *         <td>1 [ <tt>@XmlValue</tt> property ]&& <br> no properties
- *         -> attribute</td> 
+ *         <td>1 [{@code @XmlValue} property] {@literal &&} <br> no properties {@literal ->} attribute</td>
  *         <td> </td>
  *         <td>simpletype</td>
- *         <td> </td>
  *       </tr>
  *     </tbody>
  *   </table>
@@ -159,8 +191,8 @@ import java.lang.annotation.Target;
  * 
  * An enum type maps to a XML schema simple type with enumeration
  * facets. The following annotation elements are ignored since they
- * are not meaningful: <tt>propOrder()</tt> , <tt>factoryMethod()</tt> , 
- * <tt>factoryClass()</tt> .
+ * are not meaningful: {@code propOrder()} , {@code factoryMethod()} ,
+ * {@code factoryClass()} .
  *
  *  <h3> Usage with other annotations </h3>
  * <p> This annotation can be used with the following annotations: 
@@ -191,35 +223,37 @@ import java.lang.annotation.Target;
  *     java.math.BigDecimal getZip() {..};
  *     void setZip(java.math.BigDecimal) {..};
  *   }
- *
- *   &lt;!-- XML Schema mapping for USAddress -->
- *   &lt;xs:complexType name="USAddress">
- *     &lt;xs:sequence>
- *       &lt;xs:element name="street" type="xs:string"/>
- *       &lt;xs:element name="city" type="xs:string"/>
- *       &lt;xs:element name="state" type="xs:string"/>
- *       &lt;xs:element name="zip" type="xs:decimal"/>
- *       &lt;xs:element name="name" type="xs:string"/>
- *     &lt;/xs:all>
- *   &lt;/xs:complexType> 
- * </pre>
+ * {@code
+ * 
+ *   <!-- XML Schema mapping for USAddress -->
+ *   <xs:complexType name="USAddress">
+ *     <xs:sequence>
+ *       <xs:element name="street" type="xs:string"/>
+ *       <xs:element name="city" type="xs:string"/>
+ *       <xs:element name="state" type="xs:string"/>
+ *       <xs:element name="zip" type="xs:decimal"/>
+ *       <xs:element name="name" type="xs:string"/>
+ *     </xs:all>
+ *   </xs:complexType>
+ * }</pre>
  * <p> <b> Example 2: </b> Map a class to a complex type with
  *     xs:all </p>
  * <pre>
  * &#64;XmlType(propOrder={})
  * public class USAddress { ...}
+ * {@code
  * 
- * &lt;!-- XML Schema mapping for USAddress -->
- * &lt;xs:complexType name="USAddress">
- *   &lt;xs:all>
- *     &lt;xs:element name="name" type="xs:string"/>
- *     &lt;xs:element name="street" type="xs:string"/>
- *     &lt;xs:element name="city" type="xs:string"/>
- *     &lt;xs:element name="state" type="xs:string"/>
- *     &lt;xs:element name="zip" type="xs:decimal"/>
- *   &lt;/xs:sequence>
- * &lt;/xs:complexType>
- *</pre>
+ * <!-- XML Schema mapping for USAddress -->
+ * <xs:complexType name="USAddress">
+ *   <xs:all>
+ *     <xs:element name="name" type="xs:string"/>
+ *     <xs:element name="street" type="xs:string"/>
+ *     <xs:element name="city" type="xs:string"/>
+ *     <xs:element name="state" type="xs:string"/>
+ *     <xs:element name="zip" type="xs:decimal"/>
+ *   </xs:sequence>
+ * </xs:complexType>
+ *}</pre>
  * <p> <b> Example 3: </b> Map a class to a global element with an
  * anonymous type. 
  * </p>
@@ -227,23 +261,24 @@ import java.lang.annotation.Target;
  *   &#64;XmlRootElement
  *   &#64;XmlType(name="")
  *   public class USAddress { ...}
- *
- *   &lt;!-- XML Schema mapping for USAddress -->
- *   &lt;xs:element name="USAddress">
- *     &lt;xs:complexType>
- *       &lt;xs:sequence>
- *         &lt;xs:element name="name" type="xs:string"/>
- *         &lt;xs:element name="street" type="xs:string"/>
- *         &lt;xs:element name="city" type="xs:string"/>
- *         &lt;xs:element name="state" type="xs:string"/>
- *         &lt;xs:element name="zip" type="xs:decimal"/>
- *       &lt;/xs:sequence>
- *     &lt;/xs:complexType>
- *   &lt;/xs:element>
- * </pre>
+ * {@code
+ * 
+ *   <!-- XML Schema mapping for USAddress -->
+ *   <xs:element name="USAddress">
+ *     <xs:complexType>
+ *       <xs:sequence>
+ *         <xs:element name="name" type="xs:string"/>
+ *         <xs:element name="street" type="xs:string"/>
+ *         <xs:element name="city" type="xs:string"/>
+ *         <xs:element name="state" type="xs:string"/>
+ *         <xs:element name="zip" type="xs:decimal"/>
+ *       </xs:sequence>
+ *     </xs:complexType>
+ *   </xs:element>
+ * }</pre>
  *
  * <p> <b> Example 4: </b> Map a property to a local element with
- * anonmyous type. 
+ * anonymous type.
  * <pre>
  *   //Example: Code fragment
  *   public class Invoice {
@@ -254,22 +289,23 @@ import java.lang.annotation.Target;
  *   &#64;XmlType(name="")
  *   public class USAddress { ... }
  *   } 
- *
- *   &lt;!-- XML Schema mapping for USAddress -->
- *   &lt;xs:complexType name="Invoice">
- *     &lt;xs:sequence>
- *       &lt;xs:element name="addr">
- *         &lt;xs:complexType>
- *           &lt;xs:element name="name", type="xs:string"/>
- *           &lt;xs:element name="city", type="xs:string"/>
- *           &lt;xs:element name="city" type="xs:string"/>
- *           &lt;xs:element name="state" type="xs:string"/>
- *           &lt;xs:element name="zip" type="xs:decimal"/>
- *         &lt;/xs:complexType>
+ * {@code
+ * 
+ *   <!-- XML Schema mapping for USAddress -->
+ *   <xs:complexType name="Invoice">
+ *     <xs:sequence>
+ *       <xs:element name="addr">
+ *         <xs:complexType>
+ *           <xs:element name="name", type="xs:string"/>
+ *           <xs:element name="city", type="xs:string"/>
+ *           <xs:element name="city" type="xs:string"/>
+ *           <xs:element name="state" type="xs:string"/>
+ *           <xs:element name="zip" type="xs:decimal"/>
+ *         </xs:complexType>
  *       ...
- *     &lt;/xs:sequence>
- *   &lt;/xs:complexType> 
- * </pre>
+ *     </xs:sequence>
+ *   </xs:complexType>
+ * }</pre>
  *
  * <p> <b> Example 5: </b> Map a property to an attribute with
  * anonymous type.
@@ -289,19 +325,20 @@ import java.lang.annotation.Target;
  *         &#64;XmlValue
  *         public java.math.BigDecimal price;
  *     }
- *
- *     &lt;!-- Example: XML Schema fragment -->
- *     &lt;xs:complexType name="Item">
- *       &lt;xs:sequence>
- *         &lt;xs:element name="name" type="xs:string"/>
- *         &lt;xs:attribute name="price">
- *           &lt;xs:simpleType>
- *             &lt;xs:restriction base="xs:decimal"/>
- *           &lt;/xs:simpleType>
- *         &lt;/xs:attribute>
- *       &lt;/xs:sequence>
- *     &lt;/xs:complexType>
- * </pre>
+ * {@code
+ * 
+ *     <!-- Example: XML Schema fragment -->
+ *     <xs:complexType name="Item">
+ *       <xs:sequence>
+ *         <xs:element name="name" type="xs:string"/>
+ *         <xs:attribute name="price">
+ *           <xs:simpleType>
+ *             <xs:restriction base="xs:decimal"/>
+ *           </xs:simpleType>
+ *         </xs:attribute>
+ *       </xs:sequence>
+ *     </xs:complexType>
+ * }</pre>
  *
  *  <p> <b> Example 6: </b> Define a factoryClass and factoryMethod
  *
@@ -359,7 +396,7 @@ import java.lang.annotation.Target;
  * @see XmlAttribute
  * @see XmlValue
  * @see XmlSchema
- * @since JAXB2.0
+ * @since 1.6, JAXB 2.0
  */
 
 @Retention(RUNTIME) @Target({TYPE})
@@ -384,7 +421,7 @@ public @interface XmlType {
      * <p> All of the JavaBean properties being mapped to XML Schema elements
      *     must be listed. 
      * <p> A JavaBean property or field listed in propOrder must not
-     *     be transient or annotated with <tt>@XmlTransient</tt>.
+     *     be transient or annotated with {@code @XmlTransient}.
      * <p> The default ordering of JavaBean properties is determined
      *     by @{@link XmlAccessorOrder}. 
      */
@@ -401,18 +438,18 @@ public @interface XmlType {
      * Class containing a no-arg factory method for creating an
      * instance of this class. The default is this class.
      * 
-     * <p>If <tt>factoryClass</tt> is DEFAULT.class and 
-     * <tt>factoryMethod</tt> is "", then there is no static factory
+     * <p>If {@code factoryClass} is DEFAULT.class and
+     * {@code factoryMethod} is "", then there is no static factory
      * method.
      * 
-     * <p>If <tt>factoryClass</tt> is DEFAULT.class and
-     * <tt>factoryMethod</tt> is not "", then 
-     * <tt>factoryMethod</tt> is the name of a static factory method
+     * <p>If {@code factoryClass} is DEFAULT.class and
+     * {@code factoryMethod} is not "", then 
+     * {@code factoryMethod} is the name of a static factory method
      * in this class. 
      *
-     * <p>If <tt>factoryClass</tt> is not DEFAULT.class, then 
-     * <tt>factoryMethod</tt> must not be "" and must be the name of
-     * a static factory method specified in <tt>factoryClass</tt>.
+     * <p>If {@code factoryClass} is not DEFAULT.class, then
+     * {@code factoryMethod} must not be "" and must be the name of
+     * a static factory method specified in {@code factoryClass}.
      */
     Class factoryClass() default DEFAULT.class;
 
@@ -425,7 +462,7 @@ public @interface XmlType {
 
     /**
      * Name of a no-arg factory method in the class specified in
-     * <tt>factoryClass</tt> factoryClass(). 
+     * {@code factoryClass} factoryClass().
      * 
      */
     String factoryMethod() default "";

@@ -1,6 +1,41 @@
 /*
- * Copyright 2004 Sun Microsystems, Inc. All rights reserved.
- * SUN PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
+ *
+ * Copyright (c) 2004-2017 Oracle and/or its affiliates. All rights reserved.
+ *
+ * The contents of this file are subject to the terms of either the GNU
+ * General Public License Version 2 only ("GPL") or the Common Development
+ * and Distribution License("CDDL") (collectively, the "License").  You
+ * may not use this file except in compliance with the License.  You can
+ * obtain a copy of the License at
+ * https://oss.oracle.com/licenses/CDDL+GPL-1.1
+ * or LICENSE.txt.  See the License for the specific
+ * language governing permissions and limitations under the License.
+ *
+ * When distributing the software, include this License Header Notice in each
+ * file and include the License file at LICENSE.txt.
+ *
+ * GPL Classpath Exception:
+ * Oracle designates this particular file as subject to the "Classpath"
+ * exception as provided by Oracle in the GPL Version 2 section of the License
+ * file that accompanied this code.
+ *
+ * Modifications:
+ * If applicable, add the following below the License Header, with the fields
+ * enclosed by brackets [] replaced by your own identifying information:
+ * "Portions Copyright [year] [name of copyright owner]"
+ *
+ * Contributor(s):
+ * If you wish your version of this file to be governed by only the CDDL or
+ * only the GPL Version 2, indicate your decision by adding "[Contributor]
+ * elects to include this software in this distribution under the [CDDL or GPL
+ * Version 2] license."  If you don't indicate a single choice of license, a
+ * recipient has the option to distribute your version of this file under
+ * either the CDDL, the GPL Version 2 or to extend the choice of license to
+ * its licensees as provided above.  However, if you add GPL Version 2 code
+ * and therefore, elected the GPL Version 2 license, then the option applies
+ * only if the new code is made subject to such option by the copyright
+ * holder.
  */
 
 package javax.xml.bind.annotation;
@@ -17,7 +52,7 @@ import static java.lang.annotation.RetentionPolicy.*;
  *
  * <p> <b>Usage</b> </p>
  * <p>
- * The <tt>@XmlAttribute</tt> annotation can be used with the
+ * The {@code @XmlAttribute} annotation can be used with the
  * following program elements: 
  * <ul> 
  *   <li> JavaBean property </li>
@@ -36,8 +71,8 @@ import static java.lang.annotation.RetentionPolicy.*;
  *        simple type.
  * <pre>
  *     // Examples
- *     &#64;XmlAttribute List&lt;Integer> items; //legal
- *     &#64;XmlAttribute List&lt;Bar> foo; // illegal if Bar does not map to a schema simple type
+ *     &#64;XmlAttribute List&lt;Integer&gt; items; //legal
+ *     &#64;XmlAttribute List&lt;Bar&gt; foo; // illegal if Bar does not map to a schema simple type
  * </pre> 
  *   </li>
  *   <li> If the type of the field or the property is a non
@@ -58,9 +93,8 @@ import static java.lang.annotation.RetentionPolicy.*;
  *            {@link XmlAttachmentRef},
  *            {@link XmlMimeType},
  *            {@link XmlInlineBinaryData},
- *            {@link javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter}</li>.
+ *            {@link javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter}.</li>
  * </ul>
- * </p>
  *
  * <p> <b>Example 1: </b>Map a JavaBean property to an XML attribute.</p>
  * <pre>
@@ -70,14 +104,15 @@ import static java.lang.annotation.RetentionPolicy.*;
  *         public java.math.BigDecimal getPrice() {...} ;
  *         public void setPrice(java.math.BigDecimal ) {...};
  *     }
- *
- *     &lt;!-- Example: XML Schema fragment -->
- *     &lt;xs:complexType name="USPrice">
- *       &lt;xs:sequence>
- *       &lt;/xs:sequence>
- *       &lt;xs:attribute name="price" type="xs:decimal"/>
- *     &lt;/xs:complexType>
- * </pre>
+ * {@code
+ * 
+ *     <!-- Example: XML Schema fragment -->
+ *     <xs:complexType name="USPrice">
+ *       <xs:sequence>
+ *       </xs:sequence>
+ *       <xs:attribute name="price" type="xs:decimal"/>
+ *     </xs:complexType>
+ * }</pre>
  *
  * <p> <b>Example 2: </b>Map a JavaBean property to an XML attribute with anonymous type.</p>
  * See Example 7 in @{@link XmlType}.
@@ -87,22 +122,23 @@ import static java.lang.annotation.RetentionPolicy.*;
  *     // Example: Code fragment
  *     class Foo {
  *         ...
- *         &#64;XmlAttribute List&lt;Integer> items;
+ *         &#64;XmlAttribute List&lt;Integer&gt; items;
  *     } 
- *
- *     &lt;!-- Example: XML Schema fragment -->
- *     &lt;xs:complexType name="foo">
+ * {@code
+ * 
+ *     <!-- Example: XML Schema fragment -->
+ *     <xs:complexType name="foo">
  *     	 ...
- *       &lt;xs:attribute name="items">
- *         &lt;xs:simpleType>
- *           &lt;xs:list itemType="xs:int"/>
- *         &lt;/xs:simpleType>
- *     &lt;/xs:complexType>
+ *       <xs:attribute name="items">
+ *         <xs:simpleType>
+ *           <xs:list itemType="xs:int"/>
+ *         </xs:simpleType>
+ *     </xs:complexType>
  *
- * </pre>
+ * }</pre>
  * @author Sekhar Vajjhala, Sun Microsystems, Inc.
  * @see XmlType
- * @since JAXB2.0
+ * @since 1.6, JAXB 2.0
  */
 
 @Retention(RUNTIME) @Target({FIELD, METHOD})

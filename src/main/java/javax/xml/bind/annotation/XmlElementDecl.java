@@ -1,6 +1,41 @@
 /*
- * Copyright 2004 Sun Microsystems, Inc. All rights reserved.
- * SUN PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
+ *
+ * Copyright (c) 2004-2017 Oracle and/or its affiliates. All rights reserved.
+ *
+ * The contents of this file are subject to the terms of either the GNU
+ * General Public License Version 2 only ("GPL") or the Common Development
+ * and Distribution License("CDDL") (collectively, the "License").  You
+ * may not use this file except in compliance with the License.  You can
+ * obtain a copy of the License at
+ * https://oss.oracle.com/licenses/CDDL+GPL-1.1
+ * or LICENSE.txt.  See the License for the specific
+ * language governing permissions and limitations under the License.
+ *
+ * When distributing the software, include this License Header Notice in each
+ * file and include the License file at LICENSE.txt.
+ *
+ * GPL Classpath Exception:
+ * Oracle designates this particular file as subject to the "Classpath"
+ * exception as provided by Oracle in the GPL Version 2 section of the License
+ * file that accompanied this code.
+ *
+ * Modifications:
+ * If applicable, add the following below the License Header, with the fields
+ * enclosed by brackets [] replaced by your own identifying information:
+ * "Portions Copyright [year] [name of copyright owner]"
+ *
+ * Contributor(s):
+ * If you wish your version of this file to be governed by only the CDDL or
+ * only the GPL Version 2, indicate your decision by adding "[Contributor]
+ * elects to include this software in this distribution under the [CDDL or GPL
+ * Version 2] license."  If you don't indicate a single choice of license, a
+ * recipient has the option to distribute your version of this file under
+ * either the CDDL, the GPL Version 2 or to extend the choice of license to
+ * its licensees as provided above.  However, if you add GPL Version 2 code
+ * and therefore, elected the GPL Version 2 license, then the option applies
+ * only if the new code is made subject to such option by the copyright
+ * holder.
  */
 
 package javax.xml.bind.annotation;
@@ -42,12 +77,13 @@ import static java.lang.annotation.ElementType.METHOD;
  *     &#64;XmlRegistry
  *     class ObjectFactory {
  *         &#64;XmlElementDecl(name="foo")
- *         JAXBElement&lt;String> createFoo(String s) { ... }
+ *         JAXBElement&lt;String&gt; createFoo(String s) { ... }
  *     }
  * </pre>
- * <pre><xmp> 
+ * <pre> {@code
+ * 
  *     <!-- XML input -->
- *       <foo>string</foo>
+ *     <foo>string</foo>
  *
  *     // Example: code fragment corresponding to XML input
  *     JAXBElement<String> o =
@@ -59,7 +95,7 @@ import static java.lang.annotation.ElementType.METHOD;
  *
  *     <!-- Example: XML schema definition -->
  *     <xs:element name="foo" type="xs:string"/>
- * </xmp></pre>
+ * }</pre>
  *
  * <p><b>Example 2: </b> Element declaration with non local scope
  * <p>
@@ -70,7 +106,7 @@ import static java.lang.annotation.ElementType.METHOD;
  * The following example may be replaced in a future revision of
  * this javadoc.
  * 
- * <pre><xmp>
+ * <pre>{@code
  *     <!-- Example: XML schema definition -->
  *     <xs:schema>
  *       <xs:complexType name="pea">
@@ -78,10 +114,10 @@ import static java.lang.annotation.ElementType.METHOD;
  *           <xs:element name="foo" type="xs:string"/>
  *           <xs:element name="bar" type="xs:string"/>
  *         </xs:choice>
- *       </xs:complexType> 
+ *       </xs:complexType>
  *       <xs:element name="foo" type="xs:int"/>
  *     </xs:schema>
- * </xmp></pre> 
+ * }</pre> 
  * <pre>
  *     // Example: expected default binding
  *     class Pea {
@@ -89,19 +125,19 @@ import static java.lang.annotation.ElementType.METHOD;
  *             &#64;XmlElementRef(name="foo",type=JAXBElement.class)
  *             &#64;XmlElementRef(name="bar",type=JAXBElement.class)
  *         })
- *         List&lt;JAXBElement&lt;String>> fooOrBar;
+ *         List&lt;JAXBElement&lt;String&gt;&gt; fooOrBar;
  *     }
  * 
  *     &#64;XmlRegistry
  *     class ObjectFactory {
  *         &#64;XmlElementDecl(scope=Pea.class,name="foo")
- *         JAXBElement<String> createPeaFoo(String s);
+ *         JAXBElement&lt;String&gt; createPeaFoo(String s);
  * 
  *         &#64;XmlElementDecl(scope=Pea.class,name="bar")
- *         JAXBElement<String> createPeaBar(String s);
+ *         JAXBElement&lt;String&gt; createPeaBar(String s);
  * 
  *         &#64;XmlElementDecl(name="foo")
- *         JAXBElement<Integer> createFoo(Integer i);
+ *         JAXBElement&lt;Integer&gt; createFoo(Integer i);
  *     }
  * 
  * </pre>
@@ -110,7 +146,7 @@ import static java.lang.annotation.ElementType.METHOD;
  * name "foo". 
  *
  * @see XmlRegistry
- * @since JAXB 2.0
+ * @since 1.6, JAXB 2.0
  */
 @Retention(RUNTIME)
 @Target({METHOD})
@@ -149,19 +185,19 @@ public @interface XmlElementDecl {
      * namespace name of a substitution group's head XML element.
      * <p>
      * This specifies the namespace name of the XML element whose local
-     * name is specified by <tt>substitutionHeadName()</tt>.
+     * name is specified by {@code substitutionHeadName()}.
      * <p> 
-     * If <tt>susbtitutionHeadName()</tt> is "", then this
+     * If {@code susbtitutionHeadName()} is "", then this
      * value can only be "##default". But the value is ignored since
      * since this element is not part of susbtitution group when the
-     * value of <tt>susbstitutionHeadName()</tt> is "".
+     * value of {@code susbstitutionHeadName()} is "".
      * <p>
-     * If <tt>susbtitutionHeadName()</tt> is not "" and the value is
+     * If {@code susbtitutionHeadName()} is not "" and the value is
      * "##default", then the namespace name is the namespace name to 
      * which the package of the containing class, marked with {@link
      * XmlRegistry }, is mapped.
      * <p>
-     * If <tt>susbtitutionHeadName()</tt> is not "" and the value is
+     * If {@code susbtitutionHeadName()} is not "" and the value is
      * not "##default", then the value is the namespace name.
      *
      * @see #substitutionHeadName()
@@ -182,7 +218,7 @@ public @interface XmlElementDecl {
      * Default value of this element.
      *
      * <p>
-     * The '\u0000' value specified as a default of this annotation element
+     * The <pre>'\u0000'</pre> value specified as a default of this annotation element
      * is used as a poor-man's substitute for null to allow implementations
      * to recognize the 'no default value' state.
      */

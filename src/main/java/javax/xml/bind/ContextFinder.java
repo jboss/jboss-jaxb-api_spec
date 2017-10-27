@@ -326,22 +326,7 @@ class ContextFinder {
                     if (logger.isLoggable(Level.FINE)) {
                 	    logger.fine("Reading " + resourceURL);
                     }
-                    final InputStream is;
-                    if (System.getSecurityManager() != null) {
-                        try {
-                            is = AccessController.doPrivileged(new PrivilegedExceptionAction<InputStream>() {
-                                @Override
-                                public InputStream run() throws Exception {
-                                    return resourceURL.openStream();
-                                }
-                            });
-                        } catch (PrivilegedActionException pae) {
-                            throw (IOException) pae.getException();
-                        }
-                    } else {
-                        is = resourceURL.openStream();
-                    }
-                    r = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+                    r = new BufferedReader(new InputStreamReader(openStreamPrivileged(resourceURL), "UTF-8"));
                     factoryClassName = r.readLine().trim();
                     return newInstance(contextPath, factoryClassName, definingCL, classLoader, properties);
                 } else {
@@ -449,7 +434,7 @@ class ContextFinder {
                 if (debug) {
                    logger.fine("Reading "+resourceURL);
                 }
-                r = new BufferedReader(new InputStreamReader(resourceURL.openStream(), "UTF-8"));
+                r = new BufferedReader(new InputStreamReader(openStreamPrivileged(resourceURL), "UTF-8"));
                 factoryClassName = r.readLine().trim();
                 r.close();
                 return newInstance(classes, properties, factoryClassName, !useTCCL);
@@ -468,6 +453,25 @@ class ContextFinder {
         // else no provider found
         logger.fine("Trying to create the platform default provider");
         return newInstance(classes, properties, PLATFORM_DEFAULT_FACTORY_CLASS, true);
+    }
+
+    private static InputStream openStreamPrivileged(final URL resourceURL) throws IOException {
+        final InputStream is;
+        if (System.getSecurityManager() != null) {
+            try {
+                is = AccessController.doPrivileged(new PrivilegedExceptionAction<InputStream>() {
+                    @Override
+                    public InputStream run() throws Exception {
+                        return resourceURL.openStream();
+                    }
+                });
+            } catch (PrivilegedActionException pae) {
+                throw (IOException) pae.getException();
+            }
+        } else {
+            is = resourceURL.openStream();
+        }
+        return is;
     }
 
     private static Properties loadJAXBProperties( ClassLoader classLoader,

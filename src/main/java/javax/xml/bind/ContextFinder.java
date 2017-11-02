@@ -165,13 +165,22 @@ class ContextFinder {
      * Create an instance of a class using the specified ClassLoader
      */
     static JAXBContext newInstance(String contextPath,
+          Class[] contextPathClasses,
+          String className,
+          ClassLoader classLoader,
+          Map properties) throws JAXBException {
+       return newInstance(contextPath, contextPathClasses, className, classLoader, classLoader, properties);
+    }
+
+    static JAXBContext newInstance(String contextPath,
                                    Class[] contextPathClasses,
                                    String className,
+                                   ClassLoader factoryClassloader,
                                    ClassLoader classLoader,
                                    Map properties) throws JAXBException {
 
         try {
-            Class spFactory = ServiceLoaderUtil.safeLoadClass(className, PLATFORM_DEFAULT_FACTORY_CLASS, classLoader);
+            Class spFactory = ServiceLoaderUtil.safeLoadClass(className, PLATFORM_DEFAULT_FACTORY_CLASS, factoryClassloader);
             return newInstance(contextPath, contextPathClasses, spFactory, classLoader, properties);
         } catch (ClassNotFoundException x) {
             throw new JAXBException(Messages.format(Messages.DEFAULT_PROVIDER_NOT_FOUND), x);
@@ -342,6 +351,9 @@ class ContextFinder {
 
         JAXBContextFactory obj = ServiceLoaderUtil.firstByServiceLoader(
                 JAXBContextFactory.class, classLoader, logger, EXCEPTION_HANDLER);
+        if (obj == null) {
+           obj = ServiceLoaderUtil.firstByServiceLoader(JAXBContextFactory.class, ContextFinder.class.getClassLoader(), logger, EXCEPTION_HANDLER);
+        }
 
         if (obj != null) {
             ModuleUtil.delegateAddOpensToImplModule(contextPathClasses, obj.getClass());
@@ -349,8 +361,13 @@ class ContextFinder {
         }
 
         // to ensure backwards compatibility
-        factoryName = firstByServiceLoaderDeprecated(JAXBContext.class, classLoader);
-        if (factoryName != null) return newInstance(contextPath, contextPathClasses, factoryName, classLoader, properties);
+        ClassLoader cl = classLoader;
+        factoryName = firstByServiceLoaderDeprecated(JAXBContext.class, cl);
+        if (factoryName == null) {
+            cl = ContextFinder.class.getClassLoader();
+            factoryName = firstByServiceLoaderDeprecated(JAXBContext.class, cl);
+        }
+        if (factoryName != null) return newInstance(contextPath, contextPathClasses, factoryName, cl, classLoader, properties);
 
         Class ctxFactory = (Class) ServiceLoaderUtil.lookupUsingOSGiServiceLoader(
                 "javax.xml.bind.JAXBContext", logger);

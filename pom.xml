@@ -14,8 +14,8 @@
   <version>1.0.0.Alpha1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>Java Architecture for XML Binding 2.2</name>
-  <description>JSR-000222: Java(TM) Architecture for XML Binding (JAXB) 2.2</description>
+  <name>Java Architecture for XML Binding 2.3</name>
+  <description>JSR-000222: Java(TM) Architecture for XML Binding (JAXB) 2.3</description>
 
   <licenses>
     <license>

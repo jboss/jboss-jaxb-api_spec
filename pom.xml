@@ -11,7 +11,7 @@
 
   <groupId>org.jboss.spec.javax.xml.bind</groupId>
   <artifactId>jboss-jaxb-api_2.3_spec</artifactId>
-  <version>1.0.0.Alpha2-SNAPSHOT</version>
+  <version>1.0.0.Final</version>
   <packaging>jar</packaging>
 
   <name>Java Architecture for XML Binding 2.3</name>
@@ -29,7 +29,7 @@
     <connection>scm:git:git@github.com:jboss/jboss-jaxb-api_spec.git</connection>
     <developerConnection>scm:git:git@github.com:jboss/jboss-jaxb-api_spec.git</developerConnection>
     <url>https://github.com/jboss/jboss-jaxb-api_spec</url>
-    <tag>HEAD</tag>
+    <tag>jboss-jaxb-api_2.3_spec-1.0.0.Final</tag>
   </scm>
   
   <build>

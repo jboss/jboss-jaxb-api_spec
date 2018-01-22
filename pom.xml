@@ -79,6 +79,9 @@
             <manifest>
               <addDefaultSpecificationEntries>false</addDefaultSpecificationEntries>
             </manifest>
+            <manifestEntries>
+              <Automatic-Module-Name>java.xml.bind</Automatic-Module-Name>
+            </manifestEntries>
           </archive>
           <instructions>
             <Specification-Title>JSR-000222: Java(TM) Architecture for XML Binding (JAXB)</Specification-Title>

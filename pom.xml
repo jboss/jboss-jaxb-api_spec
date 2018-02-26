@@ -19,8 +19,8 @@
 
   <licenses>
     <license>
-      <name>CDDL or GPLv2 with exceptions</name>
-      <url>https://glassfish.dev.java.net/public/CDDL+GPL_1_1.html</url>
+      <name>CDDL Version 1.1 CDDL or GPLv2 with exceptions</name>
+      <url>https://javaee.github.io/glassfish/LICENSE</url>
       <distribution>repo</distribution>
     </license>
   </licenses>

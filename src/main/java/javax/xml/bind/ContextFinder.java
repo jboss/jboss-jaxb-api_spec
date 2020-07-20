@@ -344,11 +344,24 @@ class ContextFinder {
         if (factoryClassName != null) {
             return newInstance(contextPath, contextPathClasses, factoryClassName, classLoader, properties);
         }
-
-
         String factoryName = classNameFromSystemProperties();
-        if (factoryName != null) return newInstance(contextPath, contextPathClasses, factoryName, classLoader, properties);
+        if (factoryName != null) {
+            try {
+                return newInstance(contextPath, contextPathClasses, factoryName, getContextClassLoader(), properties);
+            } catch (JAXBException e) {
+                return newInstance(contextPath, contextPathClasses, factoryName, ContextFinder.class.getClassLoader(), properties);
+            }
+        }
 
+        // to ensure backwards compatibility
+        ClassLoader cl = classLoader;
+        factoryName = firstByServiceLoaderDeprecated(JAXBContext.class, cl);
+        if (factoryName == null) {
+            cl = ContextFinder.class.getClassLoader();
+            factoryName = firstByServiceLoaderDeprecated(JAXBContext.class, cl);
+        }
+        if (factoryName != null) return newInstance(contextPath, contextPathClasses, factoryName, cl, classLoader, properties);        
+    
         JAXBContextFactory obj = ServiceLoaderUtil.firstByServiceLoader(
                 JAXBContextFactory.class, classLoader, logger, EXCEPTION_HANDLER);
         if (obj == null) {
@@ -359,15 +372,6 @@ class ContextFinder {
             ModuleUtil.delegateAddOpensToImplModule(contextPathClasses, obj.getClass());
             return obj.createContext(contextPath, classLoader, properties);
         }
-
-        // to ensure backwards compatibility
-        ClassLoader cl = classLoader;
-        factoryName = firstByServiceLoaderDeprecated(JAXBContext.class, cl);
-        if (factoryName == null) {
-            cl = ContextFinder.class.getClassLoader();
-            factoryName = firstByServiceLoaderDeprecated(JAXBContext.class, cl);
-        }
-        if (factoryName != null) return newInstance(contextPath, contextPathClasses, factoryName, cl, classLoader, properties);
 
         Class ctxFactory = (Class) ServiceLoaderUtil.lookupUsingOSGiServiceLoader(
                 "javax.xml.bind.JAXBContext", logger);
@@ -411,8 +415,22 @@ class ContextFinder {
         }
 
         String factoryClassName = classNameFromSystemProperties();
-        if (factoryClassName != null) return newInstance(classes, properties, factoryClassName, getContextClassLoader());
-
+        if (factoryClassName != null) {
+            try {
+                return newInstance(classes, properties, factoryClassName, getContextClassLoader());
+            } catch (JAXBException e) {
+                return  newInstance(classes, properties, factoryClassName, ContextFinder.class.getClassLoader());
+            }
+        }
+        // to ensure backwards compatibility
+        ClassLoader cl = getContextClassLoader();
+        String className = firstByServiceLoaderDeprecated(JAXBContext.class, cl);
+        if (className == null) {
+            cl = ContextFinder.class.getClassLoader();
+            className = firstByServiceLoaderDeprecated(JAXBContext.class, cl);
+        }
+        if (className != null) return newInstance(classes, properties, className, cl);
+    
         JAXBContextFactory factory =
                 ServiceLoaderUtil.firstByServiceLoader(JAXBContextFactory.class, getContextClassLoader(), logger, EXCEPTION_HANDLER);
         if (factory == null) {
@@ -423,15 +441,6 @@ class ContextFinder {
             ModuleUtil.delegateAddOpensToImplModule(classes, factory.getClass());
             return factory.createContext(classes, properties);
         }
-
-        // to ensure backwards compatibility
-        ClassLoader cl = getContextClassLoader();
-        String className = firstByServiceLoaderDeprecated(JAXBContext.class, cl);
-        if (className == null) {
-            cl = ContextFinder.class.getClassLoader();
-            className = firstByServiceLoaderDeprecated(JAXBContext.class, cl);
-        }
-        if (className != null) return newInstance(classes, properties, className, cl);
 
         logger.fine("Trying to create the platform default provider");
         Class ctxFactoryClass =
